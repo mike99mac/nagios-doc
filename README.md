@@ -27,11 +27,14 @@ The OpenSSH server should now be running, so you can work from an SSH session if
 ## Install Apache
 To install Apache and co-requisite packages, perform the following:
 ```
-$ sudo apt install -y apache2 libssl-dev
+$ sudo apt install -y apache2 libssl-dev php php-cli gcc glibc glibc-common gd gd-devel net-snmp openssl-devel 
 ...
 ```
 
+**NOTE:** A number of these do not exist in Ubuntu, but they are left in the list to test with RHEL.
+
 The directory ``/srv/`` is a better choice for Web server data than ``/var/`` per the *Linux Filesystem Hierarchy* standard. 
+
 - Create new directories for Web data:
 ```
 $ cd /srv
@@ -65,7 +68,7 @@ $ sudo cp 000-default.conf nagios.conf
 ```
 $ sudo vi nagios.conf
 <VirtualHost *:80>
-  ServerAdmin mike99mac@gmail.com
+  ServerAdmin admin@example.com 
   DocumentRoot /srv/www/html
   ServerName model1500
 
@@ -80,7 +83,7 @@ $ sudo vi nagios.conf
 </VirtualHost>
 ```
 
-- Enable the new web server
+- Enable the new web server:
 
 ```
 $ sudo a2ensite nagios.conf
@@ -94,11 +97,11 @@ To install Nagios, perform the following steps.
 - Create users and groups:
 
 ```
-$ sudo /usr/sbin/useradd -m -s /bin/bash nagios
+$ sudo useradd -m -s /bin/bash nagios
 $ sudo passwd nagios
 ...
 $ sudo groupadd nagios nagcmd
-$ sudo usermod -g nagios -G nagios,nagcmd nagios
+$ sudo usermod -g nagios -G nagios,nagcmd,sudo nagios
 ```
 
 - Add the group ``nagcmd`` to the user ``www-data``: 
@@ -107,7 +110,7 @@ $ sudo usermod -g nagios -G nagios,nagcmd nagios
 $ sudo usermod -a -G nagcmd www-data
 ```
 
-- Switch to the new ``nagios`` user and run the ``id`` command.
+- Switch to the new ``nagios`` user and run the ``id`` command:
 
 ```
 $ sudo su - nagios
@@ -138,11 +141,14 @@ $ tar xvf nagios-4.5.1.tar.gz
 $ cd nagios-4.5.1
 ```
 
-- Create the Makefile:
+- Create the Makefile. Set the architecture with the ``--build`` option. In this exampe ``aarch64`` is used because this was run and an ARM Raspberry Pi.
 
 ```
 $ ./configure --with-command-group=nagcmd --build=aarch64-unknown-linux-gnu
 ...
+```
+
+- 
 Creating sample config files in sample-config/ ...
 *** Configuration summary for nagios 4.2.1 09-06-2016 ***:
  General Options:
