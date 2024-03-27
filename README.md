@@ -91,7 +91,7 @@ $ sudo systemctl reload apache2
 ## Install Nagios
 To install Nagios, perform the following steps.
 
-- Create users and groups
+- Create users and groups:
 
 ```
 $ sudo /usr/sbin/useradd -m -s /bin/bash nagios
@@ -103,6 +103,7 @@ $ sudo usermod -g nagios -G nagios,nagcmd nagios
 
 - Add the group ``nagcmd`` to the user ``www-data``: 
 
+```
 $ sudo usermod -a -G nagcmd www-data
 ```
 
