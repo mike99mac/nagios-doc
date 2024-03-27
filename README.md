@@ -53,7 +53,7 @@ $ sudo vi index.html
 </html>
 ```
 
-- Create a new Apache configuration file
+- Create a new Apache configuration file:
 
 ```
 $ cd /etc/apache2/sites-available
@@ -97,14 +97,16 @@ To install Nagios, perform the following steps.
 $ sudo /usr/sbin/useradd -m -s /bin/bash nagios
 $ sudo passwd nagios
 ...
-$ sudo groupadd nagios
-$ sudo usermod -G nagios nagios
-$ sudo groupadd nagcmd
-$ sudo usermod -a -G nagcmd nagios
+$ sudo groupadd nagios nagcmd
+$ sudo usermod -g nagios -G nagios,nagcmd nagios
+```
+
+- Add the group ``nagcmd`` to the user ``www-data``: 
+
 $ sudo usermod -a -G nagcmd www-data
 ```
 
-- Switch to the new ``nagios`` user and run the ``**id**`` command.
+- Switch to the new ``nagios`` user and run the ``id`` command.
 
 ```
 $ sudo su - nagios
@@ -115,30 +117,30 @@ uid=1001(nagios) gid=1001(nagios) groups=1001(nagios),1002(nagcmd)
 ## Build Nagios
 To build Nagios, perform the following steps.
 
-- Download the Nagios core and plugins code.
+- Download the Nagios core and plugins code:
 
 ```
-# cd
-# mkdir nagios
-# cd nagios/
-# wget https://github.com/NagiosEnterprises/nagioscore/releases/download/nagios-4.5.1/nagios-4.5.1.tar.gz
-# wget https://github.com/nagios-plugins/nagios-plugins/releases/download/release-2.4.9/nagios-plugins-2.4.9.tar.gz
-
+$ cd
+$ mkdir nagios
+$ cd nagios/
+$ wget https://github.com/NagiosEnterprises/nagioscore/releases/download/nagios-4.5.1/nagios-4.5.1.tar.gz
+$ wget https://github.com/nagios-plugins/nagios-plugins/releases/download/release-2.4.9/nagios-plugins-2.4.9.tar.gz
+```
 
 ## Build the Nagios core
 To build the Nagios core, perform the following steps.
 
-- Untar the code and change to that directory.
+- Untar the code and change to that directory:
 
 ```
-# tar xvf nagios-4.5.1.tar.gz
-# cd nagios-4.5.1
+$ tar xvf nagios-4.5.1.tar.gz
+$ cd nagios-4.5.1
 ```
 
-Build the code
+- Create the Makefile:
 
-Create the Makefile
-# ./configure --with-command-group=nagcmd --build=aarch64-unknown-linux-gnu
+```
+$ ./configure --with-command-group=nagcmd --build=aarch64-unknown-linux-gnu
 ...
 Creating sample config files in sample-config/ ...
 *** Configuration summary for nagios 4.2.1 09-06-2016 ***:
@@ -159,19 +161,25 @@ Creating sample config files in sample-config/ ...
           IOBroker Method:  epoll
                  HTML URL:  http://localhost/nagios/
                   CGI URL:  http://localhost/nagios/cgi-bin/
+```
 
-Build with make
+- Build with make
+
+```
 # time make all
 ...
 real    2m33.240s
+```
 
-Install the code
-# make install
-# make install-init
-# make install-config
-# make install-commandmode
+- Install the code:
+```
+$ make install
+$ make install-init
+$ make install-config
+$ make install-commandmode
+```
 
-Configure the web interface
+- Configure the web interface:
 Add an email address for the Web admin:
 vi /usr/local/nagios/etc/objects/contacts.cfg
 
