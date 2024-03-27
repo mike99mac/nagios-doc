@@ -41,6 +41,7 @@ $ sudo mkdir -p www/html www/cgi
 - Create a sample HTML file.
 
 ```
+$ cd www/html
 $ sudo vi index.html
 <html>
 <head>
@@ -50,6 +51,7 @@ $ sudo vi index.html
   <p> Nagios will be running here soon!</p>
 </body>
 </html>
+```
 
 - Create a new Apache configuration file
 
