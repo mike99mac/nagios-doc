@@ -25,7 +25,6 @@ The OpenSSH server should now be running, so you can work from an SSH session if
 To install Apache and co-requisite packages, perform the following:
 ```
 sudo apt install -y apache2 libssl-dev php php-cli gcc glibc glibc-common gd gd-devel net-snmp openssl-devel 
-...
 ```
 
 **NOTE:** A number of these do not exist in Ubuntu, but they are left in the list to test with RHEL.
@@ -121,7 +120,7 @@ sudo usermod -a -G nagcmd www-data
 sudo su - nagios
 ```
 
-- Run the ``id`` command:
+- Run the ``id`` command and verify the groups:
 
 ```
 id
@@ -157,56 +156,62 @@ cd nagios-4.5.1
 
 - Create the Makefile. Set the architecture with the ``--build`` option. In this exampe ``aarch64`` is used because this was run and an ARM Raspberry Pi.
 
+**NOTE:** the location of the ssl libraries specified by ``--with-ssl-lib`` will depend on architecture.
+
 ```
 ./configure --with-command-group=nagcmd --build=aarch64-unknown-linux-gnu --with-ssl-lib=/usr/lib/aarch64-linux-gnu
 ```
 
-**NOTE:** the location of the ssl libraries specified by ``--with-ssl-lib`` will depend on architecture.
-
-- Build with make:
+- Build with ``make``:
 
 ```
 make all
 ```
 
-- Install the code:
+- Install the code with the following ``make`` commands:
 ```
-make install
-make install-init
-make install-config
-make install-commandmode
-```
-
-- Configure the web interface - add an email address for the Web admin:
-
-```
-vi /usr/local/nagios/etc/objects/contacts.cfg
+sudo make install
+sudo make install-init
+sudo make install-config
+sudo make install-commandmode
 ```
 
-# make install-webconf
+- Configure the web interface - replace the email address for the Web admin:
+
+```
+sudo vi /usr/local/nagios/etc/objects/contacts.cfg
+```
+
+- Install the Apache code:
+
+```
+make install-webconf
 Failed - pointing to wrong apache /etc directory - had to change the Makefile:
 
 # vi Makefile
 # HTTPD_CONF=/etc/httpd/conf.d
 HTTPD_CONF=/etc/apache2/conf-available
+```
 
-Create password file
-# htpasswd -c /usr/local/nagios/etc/htpasswd.users nagiosadmin
-New password:
-Re-type new password:
-Adding password for user nagiosadmin
+- Create a password file for the user ``nagiosadmin``:
+
+```
+htpasswd -c /usr/local/nagios/etc/htpasswd.users nagiosadmin
+```
 
 Credentials: nagiosadmin/nagios
 
-Compile the plugins
-# cd /home/pi/nagios/
-# tar xzf nagios-plugins-2.4.9.tar.gz
-# cd nagios-plugins-2.4.9
+Untar the plugins code:
 
+```
+cd /home/pi/nagios/
+tar xzf nagios-plugins-2.4.9.tar.gz
+cd nagios-plugins-2.4.9
+```
 
+- Created a systemd service file
 
-Created a systemd service file
-# cat nagios.service
+```
 [Unit]
 Description=Nagios Core
 Documentation=https://www.nagios.org/documentation
@@ -216,8 +221,8 @@ BindTo=network.target
 [Install]
 WantedBy=multi-user.target
 [Service]
-Type=forking
-# Type=simple
+# Type=forking
+Type=simple
 User=nagios
 Group=nagios
 PIDFile=/run/nagios.pid
@@ -227,6 +232,5 @@ ExecStop=/usr/bin/kill -s TERM ${MAINPID}
 ExecStopPost=/usr/bin/rm -f /usr/local/nagios/var/rw/nagios.cmd
 ExecReload=/usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg
 ExecReload=/usr/bin/kill -s HUP ${MAINPID}
-
-
+```
 
