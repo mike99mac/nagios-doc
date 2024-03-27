@@ -2,11 +2,11 @@
 This documents installing Apache v2.4.52 and Debian v4.5.1 on Ubuntu Desktop v22.04 on a Raspberry Pi 4.
 
 ## Prepare the server 
-To prepare for installations of Apache and Nagios, perform the following steps
+To prepare for installations of Apache and Nagios, perform the following steps.
 
 - Install Ubuntu Desktop 22.04 on the platform of your choice.  
 - Open a terminal session.
-- Refresh the system.
+- Refresh the system:
 
 ```
 $ sudo apt update
@@ -15,26 +15,28 @@ $ sudo apt upgrade -y
 ...
 ```
 
-- Ubuntu Desktop does not come with an SSH server installed.  To install it, run the following command.
+- Ubuntu Desktop does not come with an SSH server installed.  To install openSSH, run the following command:
 
 ```
-$ sudo apt install -y openssh-server libssl-dev 
+$ sudo apt install -y openssh-server
 ...
 ```
 
-Now you can start an SSH session if you prefer.
+The OpenSSH server should now be running, so you can work from an SSH session if you prefer.
 
 ## Install Apache
+To install Apache and co-requisite packages, perform the following:
 ```
-$ sudo apt install -y apache2
+$ sudo apt install -y apache2 libssl-dev
 ...
 ```
 
 The directory ``/srv/`` is a better choice for Web server data than ``/var/`` per the *Linux Filesystem Hierarchy* standard. 
-- Create new directories
+- Create new directories for Web data:
 ```
 $ cd /srv
 $ sudo mkdir -p www/html www/cgi
+```
 
 - Create a sample HTML file.
 
