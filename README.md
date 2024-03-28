@@ -1,5 +1,5 @@
 # Installing Apache and Nagios 
-This document describes how to install Apache v2.4.52 and Debian v4.5.1 on Ubuntu Desktop v22.04 running on a ARM architecture Raspberry Pi 4.
+This document describes how to install Apache v2.4.52 and Debian v4.5.1 on Ubuntu Desktop v22.04 running on an ARM architecture Raspberry Pi 4.
 
 ## Prepare the server 
 To prepare for installations of Apache and Nagios, perform the following steps.
@@ -188,21 +188,25 @@ sudo vi /usr/local/nagios/etc/objects/contacts.cfg
 
 ```
 make install-webconf
-Failed - pointing to wrong apache /etc directory - had to change the Makefile:
-
-# vi Makefile
-# HTTPD_CONF=/etc/httpd/conf.d
-HTTPD_CONF=/etc/apache2/conf-available
 ```
 
-- Create a password file for the user ``nagiosadmin``:
+**NOTE:** If it fails, it may be due to the wrong value of the ``HTTPD_CONF`` variable: 
+
+```
+# vi Makefile
+...
+# HTTPD_CONF=/etc/httpd/conf.d
+HTTPD_CONF=/etc/apache2/conf-available
+...
+```
+
+- Create a password file for the user ``nagiosadmin``. These will be the credentials needed to access the site:
 
 ```
 htpasswd -c /usr/local/nagios/etc/htpasswd.users nagiosadmin
 ```
 
-Credentials: nagiosadmin/nagios
-
+## Install plugins
 Untar the plugins code:
 
 ```
@@ -211,9 +215,19 @@ tar xzf nagios-plugins-2.4.9.tar.gz
 cd nagios-plugins-2.4.9
 ```
 
-- Created a systemd service file
+- Compile and install the plugins:
 
 ```
+./configure --with-nagios-user=nagios --with-nagios-group=nagios
+make
+make install
+```
+
+- Create a systemd service file:
+
+``` 
+cd /etc/systemd/system
+vi nagios.service
 [Unit]
 Description=Nagios Core
 Documentation=https://www.nagios.org/documentation
