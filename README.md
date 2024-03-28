@@ -1,5 +1,5 @@
 # Installing Apache and Nagios 
-This documents installing Apache v2.4.52 and Debian v4.5.1 on Ubuntu Desktop v22.04 on a Raspberry Pi 4.
+This document describes how to install Apache v2.4.52 and Debian v4.5.1 on Ubuntu Desktop v22.04 running on a ARM architecture Raspberry Pi 4.
 
 ## Prepare the server 
 To prepare for installations of Apache and Nagios, perform the following steps.
@@ -31,7 +31,7 @@ sudo apt install -y apache2 libssl-dev php php-cli gcc glibc glibc-common gd gd-
 
 The directory ``/srv/`` is a better choice for Web server data than ``/var/`` per the *Linux Filesystem Hierarchy* standard. 
 
-- Create new directories for Web data:
+- Create new directories ``/srv/www/html`` and ``/srv/www/cgi`` for Web data:
 ```
 cd /srv
 sudo mkdir -p www/html www/cgi
@@ -90,6 +90,8 @@ sudo vi nagios.conf
 sudo a2ensite nagios.conf
 sudo systemctl reload apache2
 ```
+
+- Test your web server by pointing a browser to it.  In this example the URL is ``http://model1500/``.
 
 ## Install Nagios
 To install Nagios, perform the following steps.
