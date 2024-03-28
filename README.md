@@ -146,7 +146,7 @@ wget https://github.com/NagiosEnterprises/nagioscore/releases/download/nagios-4.
 wget https://github.com/nagios-plugins/nagios-plugins/releases/download/release-2.4.9/nagios-plugins-2.4.9.tar.gz
 ```
 
-## Build the Nagios core
+### Build the Nagios core
 To build the Nagios core, perform the following steps.
 
 - Untar the code and change to that directory:
@@ -206,8 +206,11 @@ HTTPD_CONF=/etc/apache2/conf-available
 htpasswd -c /usr/local/nagios/etc/htpasswd.users nagiosadmin
 ```
 
-## Install plugins
-Untar the plugins code:
+
+### Build Nagios plugins
+To build and install the Nagios plugins, perform the following steps.
+
+- Untar the plugins code:
 
 ```
 cd /home/pi/nagios/
@@ -215,15 +218,72 @@ tar xzf nagios-plugins-2.4.9.tar.gz
 cd nagios-plugins-2.4.9
 ```
 
-- Compile and install the plugins:
+- Run ``configure`` to create a ``Makefile``: 
 
 ```
 ./configure --with-nagios-user=nagios --with-nagios-group=nagios
+```
+
+Compile and install the plugins:
+
+```
 make
 make install
 ```
 
-- Create a systemd service file:
+The Nagios plugins are now built and installed.
+
+### Update Nagios Apache file
+Now that Nagios and the plugins are installed, the Apache configuration file needs to be updated.
+
+- Edit the file:
+```
+cd /etc/apache2/sites-available
+vi nagios.conf
+
+- Replace it with the following content:
+
+```
+<VirtualHost *:80>
+  ServerAdmin admin@example.com
+  DocumentRoot /srv/www/html
+  ServerName model1500
+
+  <Directory "/srv/www/html">
+    Options Indexes FollowSymLinks
+    AllowOverride all
+    Require all granted
+  </Directory>
+
+  ScriptAlias /nagios/cgi-bin "/usr/local/nagios/sbin"
+  <Directory "/usr/local/nagios/sbin">
+    Options ExecCGI
+    AllowOverride None
+    AuthName "Nagios Access"
+    AuthType Basic
+    AuthUserFile /usr/local/nagios/etc/htpasswd.users
+    Require valid-user
+</Directory>
+
+  Alias /nagios "/usr/local/nagios/share"
+  <Directory "/usr/local/nagios/share">
+    Options None
+    AllowOverride None
+    AuthName "Nagios Access"
+    AuthType Basic
+    AuthUserFile /usr/local/nagios/etc/htpasswd.users
+    Require valid-user
+  </Directory>
+
+  ErrorLog ${APACHE_LOG_DIR}/error.log
+  CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+```
+
+### Enable Nagios to start at boot time
+To eable Nagios to start at boot time, perform the following steps.
+
+- Create a systemd service file in ``/etc/systemd/system`` with the following content:
 
 ``` 
 cd /etc/systemd/system
@@ -249,4 +309,11 @@ ExecStopPost=/usr/bin/rm -f /usr/local/nagios/var/rw/nagios.cmd
 ExecReload=/usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg
 ExecReload=/usr/bin/kill -s HUP ${MAINPID}
 ```
+
+## Test Nagios
+To test Nagios, point a browser to your new site.  In this example, the URL is ``http://model1500/nagios``.
+
+You should be challenged for the credentials in the ``/usr/local/nagios/etc/htpasswd.users`` file created earlier.
+
+# Configure Nagios
 
