@@ -234,7 +234,7 @@ make install
 The Nagios plugins are now built and installed.
 
 ### Update Nagios Apache file
-Now that Nagios and the plugins are installed, the Apache configuration file needs to be updated.
+Now that Nagios and the plugins are installed, the Apache configuration file can be updated to point to the Nagios home page anc the ``cgi-bin/`` directory.
 
 - Edit the file:
 ```
@@ -315,5 +315,9 @@ To test Nagios, point a browser to your new site.  In this example, the URL is `
 
 You should be challenged for the credentials in the ``/usr/local/nagios/etc/htpasswd.users`` file created earlier.
 
+**TODO:** get a screen shot
+
 # Configure Nagios
+The Nagios help pages are here: https://assets.nagios.com/downloads/nagioscore/docs/nagioscore/4/en/config.html
+
 
