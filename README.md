@@ -76,7 +76,7 @@ sudo vi nagios.conf
   <Directory "/srv/www/html">
     Options Indexes FollowSymLinks
     AllowOverride all
-   Require all granted
+    Require all granted
   </Directory>
 
   ErrorLog ${APACHE_LOG_DIR}/error.log
@@ -92,6 +92,7 @@ sudo systemctl reload apache2
 ```
 
 - Test your web server by pointing a browser to it.  In this example the URL is ``http://model1500/``.
+You should see rendering of the HTML file you just created.
 
 ## Install Nagios
 To install Nagios, perform the following steps.
@@ -156,7 +157,7 @@ tar xvf nagios-4.5.1.tar.gz
 cd nagios-4.5.1
 ```
 
-- Create the Makefile. Set the architecture with the ``--build`` option. In this exampe ``aarch64`` is used because this was run and an ARM Raspberry Pi.
+- Create the ``Makefile``. Set the architecture with the ``--build`` option. In this exampe ``aarch64`` is used because this was run and an ARM Raspberry Pi.
 
 **NOTE:** the location of the ssl libraries specified by ``--with-ssl-lib`` will depend on architecture.
 
@@ -200,12 +201,13 @@ HTTPD_CONF=/etc/apache2/conf-available
 ...
 ```
 
-- Create a password file for the user ``nagiosadmin``. These will be the credentials needed to access the site:
+- Create a password file for the user ``nagiosadmin``. These will set the credentials needed to access the site:
 
 ```
 htpasswd -c /usr/local/nagios/etc/htpasswd.users nagiosadmin
 ```
 
+Remember the credentials!
 
 ### Build Nagios plugins
 To build and install the Nagios plugins, perform the following steps.
@@ -224,16 +226,16 @@ cd nagios-plugins-2.4.9
 ./configure --with-nagios-user=nagios --with-nagios-group=nagios
 ```
 
-Compile and install the plugins:
+Compile and install the plugins using the following ``make`` commands:
 
 ```
 make
 make install
 ```
 
-The Nagios plugins are now built and installed.
+If all went well, the Nagios plugins are now built and installed.
 
-### Update Nagios Apache file
+### Update Apache to add Nagios 
 Now that Nagios and the plugins are installed, the Apache configuration file can be updated to point to the Nagios home page and the ``cgi-bin/`` directory.
 
 - Edit the file:
