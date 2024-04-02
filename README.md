@@ -1,5 +1,8 @@
 # Installing Apache and Nagios 
-This document describes how to install Apache v2.4.52 and Debian v4.5.1 on Ubuntu Desktop v22.04 running on an ARM architecture Raspberry Pi 4.
+This document describes how to install Apache v2.4.52 and Nagios v4.5.1 on Ubuntu Desktop v22.04 running on an ARM architecture Raspberry Pi 4.
+
+It addresses *Nagios Core* vs *Nagios XI* which is built on top of Nagios Core, and is more GUI-driven than command line driven.  The author still likes the command line, so Nagios XI will not be addressed in this document.  Perhaps it will be at a later date.
+
 
 ## Prepare the server 
 To prepare for installations of Apache and Nagios, perform the following steps.
@@ -242,6 +245,7 @@ Now that Nagios and the plugins are installed, the Apache configuration file can
 ```
 cd /etc/apache2/sites-available
 vi nagios.conf
+```
 
 - Replace it with the following content:
 
@@ -314,7 +318,11 @@ You should be challenged for the credentials in the ``/usr/local/nagios/etc/htpa
 
 **TODO:** get a screen shot
 
-# Configure Nagios
+# Add Nagios agents to servers to be monitored
 The Nagios help pages are here: https://assets.nagios.com/downloads/nagioscore/docs/nagioscore/4/en/config.html
 
+https://www.nagios.org/ncpa/#downloads
 
+Good reference:
+
+https://github.com/NagiosEnterprises/ncpa/blob/master/BUILDING.rst#building-ncpa
