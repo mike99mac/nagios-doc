@@ -4,9 +4,9 @@ This document describes how to install Apache v2.4.52 and Debian v4.5.1 on Ubunt
 ## Prepare the server 
 To prepare for installations of Apache and Nagios, perform the following steps.
 
-- Install Ubuntu Desktop 22.04 on the platform of your choice.  
+- Install a Linux on the platform of your choice.  This document was written using Ubuntu Desktop 22.04
 - Open a terminal session.
-- Refresh the system:
+- Upgrade the system:
 
 ```
 sudo apt update
@@ -27,14 +27,14 @@ To install Apache and co-requisite packages, perform the following:
 sudo apt install -y apache2 libssl-dev php php-cli gcc glibc glibc-common gd gd-devel net-snmp openssl-devel 
 ```
 
-**NOTE:** A number of these do not exist in Ubuntu, but they are left in the list to test with RHEL.
+**NOTE:** A number of these packages do not exist in Ubuntu, but they are left in to test with RHEL.
 
 The directory ``/srv/`` is a better choice for Web server data than ``/var/`` per the *Linux Filesystem Hierarchy* standard. 
 
-- Create new directories ``/srv/www/html`` and ``/srv/www/cgi`` for Web data:
+- Create a new directory ``/srv/www/html`` for Web data:
 ```
 cd /srv
-sudo mkdir -p www/html www/cgi
+sudo mkdir -p www/html 
 ```
 
 - Create a sample HTML file.
@@ -234,7 +234,7 @@ make install
 The Nagios plugins are now built and installed.
 
 ### Update Nagios Apache file
-Now that Nagios and the plugins are installed, the Apache configuration file can be updated to point to the Nagios home page anc the ``cgi-bin/`` directory.
+Now that Nagios and the plugins are installed, the Apache configuration file can be updated to point to the Nagios home page and the ``cgi-bin/`` directory.
 
 - Edit the file:
 ```
@@ -289,25 +289,20 @@ To eable Nagios to start at boot time, perform the following steps.
 cd /etc/systemd/system
 vi nagios.service
 [Unit]
-Description=Nagios Core
-Documentation=https://www.nagios.org/documentation
-After=network.target local-fs.target
+Description=Nagios
 BindTo=network.target
-
 [Install]
 WantedBy=multi-user.target
 [Service]
-# Type=forking
 Type=simple
 User=nagios
 Group=nagios
-PIDFile=/run/nagios.pid
-ExecStartPre=/usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg
-ExecStart=/usr/local/nagios/bin/nagios -d /usr/local/nagios/etc/nagios.cfg
+ExecStart=/usr/local/nagios/bin/nagios /usr/local/nagios/etc/nagios.cfg
 ExecStop=/usr/bin/kill -s TERM ${MAINPID}
 ExecStopPost=/usr/bin/rm -f /usr/local/nagios/var/rw/nagios.cmd
 ExecReload=/usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg
 ExecReload=/usr/bin/kill -s HUP ${MAINPID}
+
 ```
 
 ## Test Nagios
