@@ -5,6 +5,12 @@ This document describes how to install Apache v2.4.52 and Nagios v4.5.1 on AlmaL
 ## Prepare the server 
 To prepare for installations of Apache and Nagios, perform the following steps.
 
+- Update the system:
+```
+yum check-update
+yum update
+```
+
 ## Install Apache
 To install Apache and co-requisite packages, perform the following:
 
@@ -15,16 +21,10 @@ id
 uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
 ```
 
-- Update the system:
-```
-dnf check-update
-dnf update
-```
-
-- Install Apache and associate tools:
+- Install Apache and associated packages:
 
 ```
-dnf install httpd httpd-tools
+yum install gcc glibc glibc-common wget unzip httpd httpd-tools php gd gd-devel openssh-devel perl postfix
 ```
 
 - Start the ``httpd`` service now and at set it to start at boot time:
@@ -40,7 +40,6 @@ systemctl enable httpd
 firewall-cmd --zone=public --add-service=http --permanent
 firewall-cmd --zone=public --add-service=https --permanent
 ```
-
 
 - Create a sample HTML file.
 
@@ -62,41 +61,8 @@ vi index.html
 </html>
 ```
 
-- Create a new Apache configuration file:
-
-```
-cd /etc/apache2/sites-available
-sudo cp 000-default.conf nagios.conf
-```
-
-- Replace the contents of the file with these settings:
-
-```
-<VirtualHost *:80>
-  ServerAdmin admin@example.com 
-  DocumentRoot /srv/www/html
-  ServerName model1500
-
-  <Directory "/srv/www/html">
-    Options Indexes FollowSymLinks
-    AllowOverride all
-    Require all granted
-  </Directory>
-
-  ErrorLog ${APACHE_LOG_DIR}/error.log
-  CustomLog ${APACHE_LOG_DIR}/access.log combined
-</VirtualHost>
-```
-
-- Enable the new web server with the ``a2ensite`` command and restart Apache:
-
-```
-sudo a2ensite nagios.conf
-sudo systemctl reload apache2
-```
-
-- Test your web server by pointing a browser to it.  In this example the URL is ``http://model1500/``.
-You should see rendering of the HTML file you just created.
+- Test your web server by pointing a browser to it.  In this example the URL is ``http://mmac01.devlab.sinenomine.net/index.html``.
+You should see rendering of the HTML file you just created.  This means that Apache is running and serving pages.
 
 ## Install Nagios
 To install Nagios, perform the following steps.
@@ -104,34 +70,34 @@ To install Nagios, perform the following steps.
 - Create the user ``nagios`` and set the password:
 
 ```
-sudo useradd -m -s /bin/bash nagios
-sudo passwd nagios
+useradd -m -s /bin/bash nagios
+passwd nagios
 ```
 
 - Create new groups and add them to the ``nagios`` user:
 
 ```
-sudo groupadd nagios nagcmd
-sudo usermod -g nagios -G nagios,nagcmd,sudo nagios
+groupadd nagios 
+groupadd nagcmd
+usermod -g nagios -G nagios,nagcmd nagios
 ```
 
 - Add the group ``nagcmd`` to the user ``www-data``: 
 
 ```
-sudo usermod -a -G nagcmd www-data
+sudo usermod -a -G nagcmd apache 
+```
+
+id nagios
+uid=1000(nagios) gid=1000(nagios) groups=1000(nagios),1001(nagcmd)
+id apache
+uid=48(apache) gid=48(apache) groups=48(apache),1001(nagcmd)
 ```
 
 - Switch to the new ``nagios`` user: 
 
 ```
-sudo su - nagios
-```
-
-- Run the ``id`` command and verify the groups:
-
-```
-id
-uid=1001(nagios) gid=1001(nagios) groups=1001(nagios),1002(nagcmd)
+su - nagios
 ```
 
 ## Build Nagios
@@ -166,7 +132,7 @@ cd nagios-4.5.1
 **NOTE:** the location of the ssl libraries specified by ``--with-ssl-lib`` will depend on architecture.
 
 ```
-./configure --with-command-group=nagcmd --build=aarch64-unknown-linux-gnu --with-ssl-lib=/usr/lib/aarch64-linux-gnu
+./configure --with-command-group=nagcmd --build=x86_64-unknown-linux-gnu 
 ```
 
 - Build Nagios core with ``make``:
@@ -178,22 +144,38 @@ make all
 - Install the code with the following ``make`` commands:
 ```
 sudo make install
-sudo make install-init
-sudo make install-config
-sudo make install-commandmode
+```
+
+- Install the systemd ``nagios.service`` file and enable it to start at boot time:
+
+```
+make install-daemoninit
+systemctl enable nagios
+```
+
+- Install Nagios command mode
+
+```
+make install-commandmode
+```
+
+- Install sample configuration files:
+
+```
+make install-config
 ```
 
 - Configure the web interface - replace the email address for the Web admin:
 
 ```
-sudo vi /usr/local/nagios/etc/objects/contacts.cfg
+vi /usr/local/nagios/etc/objects/contacts.cfg
 ...
 define contact {
 
     contact_name            nagiosadmin             ; Short name of user
     use                     generic-contact         ; Inherit default values from generic-contact template (defined above)
     alias                   Nagios Admin            ; Full name of user
-    email                   your-email@example.com
+    email                   mmacisaac@sinenomine.net
 }
 ...
 ```
@@ -204,20 +186,13 @@ define contact {
 make install-webconf
 ```
 
-**NOTE:** If it fails, check the value of the ``HTTPD_CONF`` variable. In this exampe it was pointing to ``/etc/httpd`` not ``/etc/apache2``:
-
-```
-# vi Makefile
-...
-# HTTPD_CONF=/etc/httpd/conf.d
-HTTPD_CONF=/etc/apache2/conf-available
-...
-```
-
 - Create a password file for the user ``nagiosadmin``. These will set the credentials needed to access the site:
 
 ```
 htpasswd -c /usr/local/nagios/etc/htpasswd.users nagiosadmin
+New password:
+Re-type new password:
+Adding password for user nagiosadmin
 ```
 
 Remember the credentials!

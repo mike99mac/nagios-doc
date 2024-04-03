@@ -27,10 +27,8 @@ The OpenSSH server should now be running, so you can work from an SSH session if
 ## Install Apache
 To install Apache and co-requisite packages, perform the following:
 ```
-sudo apt install -y apache2 libssl-dev php php-cli gcc glibc glibc-common gd gd-devel net-snmp openssl-devel 
+sudo apt install -y apache2 libssl-dev php php-cli gcc 
 ```
-
-**NOTE:** A number of these packages do not exist in Ubuntu, but they are left in to test with RHEL.
 
 The directory ``/srv/`` is a better choice for Web server data than ``/var/`` per the *Linux Filesystem Hierarchy* standard. 
 
