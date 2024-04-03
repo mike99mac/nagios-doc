@@ -64,8 +64,8 @@ vi index.html
 - Test your web server by pointing a browser to it.  In this example the URL is ``http://mmac01.devlab.sinenomine.net/index.html``.
 You should see rendering of the HTML file you just created.  This means that Apache is running and serving pages.
 
-## Install Nagios
-To install Nagios, perform the following steps.
+## Prepare Nagios
+To prepare to install Nagios, perform the following steps.
 
 - Create the user ``nagios`` and set the password:
 
@@ -82,7 +82,7 @@ groupadd nagcmd
 usermod -g nagios -G nagios,nagcmd nagios
 ```
 
-- Add the group ``nagcmd`` to the user ``www-data``: 
+- Add the group ``nagcmd`` to the user ``apache``: 
 
 ```
 sudo usermod -a -G nagcmd apache 
@@ -136,7 +136,11 @@ cd nagios-4.5.1
 make all
 ```
 
+### Install Nagios
+To install Nagios, perform the following steps.
+
 - Install the code with the following ``make`` commands:
+
 ```
 sudo make install
 ```
