@@ -136,7 +136,7 @@ cd nagios-4.5.1
 make all
 ```
 
-### Install Nagios
+## Install Nagios
 To install Nagios, perform the following steps.
 
 - Install the code with the following ``make`` commands:
@@ -196,13 +196,13 @@ Adding password for user nagiosadmin
 
 Remember the credentials!
 
-### Build Nagios plugins
+### Build and install Nagios plugins
 To build and install the Nagios plugins, perform the following steps.
 
 - Untar the plugins code:
 
 ```
-cd /home/pi/nagios/
+cd /home/nagios/nagios
 tar xzf nagios-plugins-2.4.9.tar.gz
 cd nagios-plugins-2.4.9
 ```
