@@ -326,6 +326,12 @@ ExecReload=/usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg
 ExecReload=/usr/bin/kill -s HUP ${MAINPID}
 ```
 
+- Reload the systemd unit files:
+ 
+```
+sudo systemctl daemon-reload
+```
+
 - Set the Nagios service to start at boot time and for the current session:
 
 ```
@@ -333,13 +339,14 @@ systemctl enable nagios
 systemctl start nagios
 ```
 
+## Test Nagios
+
 - Check the status of Nagios.  It should be running:
 
 ```
 systemctl status nagios
 ```
 
-## Test Nagios
 To test Nagios, point a browser to your new site.  In this example, the URL is ``http://model1500/nagios``.
 
 You should be challenged for the credentials in the ``/usr/local/nagios/etc/htpasswd.users`` file created earlier.
@@ -351,6 +358,36 @@ The Nagios help pages are here: https://assets.nagios.com/downloads/nagioscore/d
 
 https://www.nagios.org/ncpa/#downloads
 
-Good reference:
+A good reference for building and installing ``ncpa`` is here: https://github.com/NagiosEnterprises/ncpa/blob/master/BUILDING.rst#building-ncpa
 
-https://github.com/NagiosEnterprises/ncpa/blob/master/BUILDING.rst#building-ncpa
+To build and install ``ncpa``, perform the following steps.
+
+- Clone the code from ``github``:
+
+```
+git clone https://github.com/NagiosEnterprises/ncpa
+```
+
+- Change to the ``ncpa/build`` directory and run ``build.sh`` to build the agent:
+This step can take more than 20 minutes:
+
+```
+cd ncpa/build
+./build.sh
+```
+
+- Show the resulting ``.deb`` file:
+
+```
+file *.deb
+ncpa_3.0.2-1_arm64.deb: Debian binary package (format 2.0), with control.tar.zs, data compression zst
+```
+
+- Install the new package:
+
+```
+sudo dpkg -i ncpa_3.0.2-1_arm64.deb
+```
+
+
+
