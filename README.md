@@ -202,7 +202,7 @@ define contact {
 make install-webconf
 ```
 
-**NOTE:** If it fails, it may be due to the wrong value of the ``HTTPD_CONF`` variable. In this exampe it was pointing to ``/etc/httpd`` not ``/etc/apache2``:
+**NOTE:** If it fails, check the value of the ``HTTPD_CONF`` variable. In this exampe it was pointing to ``/etc/httpd`` not ``/etc/apache2``:
 
 ```
 # vi Makefile
@@ -237,7 +237,7 @@ cd nagios-plugins-2.4.9
 ./configure --with-nagios-user=nagios --with-nagios-group=nagios
 ```
 
-Compile and install the plugins using the following ``make`` commands:
+- Compile and install the plugins using the following ``make`` commands:
 
 ```
 make
@@ -247,9 +247,12 @@ make install
 If all went well, the Nagios plugins are now built and installed.
 
 ### Update Apache to add Nagios 
-Now that Nagios and the plugins are installed, the Apache configuration file can be updated to point to the Nagios home page and the ``cgi-bin/`` directory.
+Now that Nagios and the plugins are installed, the Apache configuration file can be 
+updated to point to the Nagios home page and the ``cgi-bin/`` directory.
+which is actually the ``"/usr/local/nagios/sbin"`` directory.
 
 - Edit the file:
+
 ```
 cd /etc/apache2/sites-available
 vi nagios.conf
@@ -297,11 +300,16 @@ vi nagios.conf
 ### Enable Nagios to start at boot time
 To eable Nagios to start at boot time, perform the following steps.
 
-- Create a systemd service file in ``/etc/systemd/system`` with the following content:
+- Create a systemd service file in ``/etc/systemd/system``: 
 
 ``` 
 cd /etc/systemd/system
 vi nagios.service
+```
+
+- Add the following content:
+
+```
 [Unit]
 Description=Nagios
 BindTo=network.target
@@ -316,7 +324,19 @@ ExecStop=/usr/bin/kill -s TERM ${MAINPID}
 ExecStopPost=/usr/bin/rm -f /usr/local/nagios/var/rw/nagios.cmd
 ExecReload=/usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg
 ExecReload=/usr/bin/kill -s HUP ${MAINPID}
+```
 
+- Set the Nagios service to start at boot time and for the current session:
+
+```
+systemctl enable nagios
+systemctl start nagios
+```
+
+- Check the status of Nagios.  It should be running:
+
+```
+systemctl status nagios
 ```
 
 ## Test Nagios
