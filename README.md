@@ -16,10 +16,10 @@ sudo apt update
 sudo apt upgrade -y
 ```
 
-- Ubuntu Desktop does not come with an SSH server installed.  To install openSSH, run the following command:
+- Ubuntu Desktop does not come with an SSH server installed.  To install openSSH, git and vim, run the following command:
 
 ```
-sudo apt install -y openssh-server
+sudo apt install -y openssh-server git vim
 ```
 
 The OpenSSH server should now be running, so you can work from an SSH session if you prefer.
@@ -70,7 +70,6 @@ sudo cp 000-default.conf nagios.conf
 - Replace the contents of the file with these settings:
 
 ```
-sudo vi nagios.conf
 <VirtualHost *:80>
   ServerAdmin admin@example.com 
   DocumentRoot /srv/www/html
@@ -87,7 +86,7 @@ sudo vi nagios.conf
 </VirtualHost>
 ```
 
-- Enable the new web server:
+- Enable the new web server with the ``a2ensite`` command and restart Apache:
 
 ```
 sudo a2ensite nagios.conf
@@ -168,7 +167,7 @@ cd nagios-4.5.1
 ./configure --with-command-group=nagcmd --build=aarch64-unknown-linux-gnu --with-ssl-lib=/usr/lib/aarch64-linux-gnu
 ```
 
-- Build with ``make``:
+- Build Nagios core with ``make``:
 
 ```
 make all
@@ -186,15 +185,24 @@ sudo make install-commandmode
 
 ```
 sudo vi /usr/local/nagios/etc/objects/contacts.cfg
+...
+define contact {
+
+    contact_name            nagiosadmin             ; Short name of user
+    use                     generic-contact         ; Inherit default values from generic-contact template (defined above)
+    alias                   Nagios Admin            ; Full name of user
+    email                   your-email@example.com
+}
+...
 ```
 
-- Install the Apache code:
+- Install the web server related code:
 
 ```
 make install-webconf
 ```
 
-**NOTE:** If it fails, it may be due to the wrong value of the ``HTTPD_CONF`` variable: 
+**NOTE:** If it fails, it may be due to the wrong value of the ``HTTPD_CONF`` variable. In this exampe it was pointing to ``/etc/httpd`` not ``/etc/apache2``:
 
 ```
 # vi Makefile
