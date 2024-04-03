@@ -1,50 +1,52 @@
 # Installing Apache and Nagios 
-This document describes how to install Apache v2.4.52 and Nagios v4.5.1 on Ubuntu Desktop v22.04 running on an ARM architecture Raspberry Pi 4.
-
-It addresses *Nagios Core* vs *Nagios XI* which is built on top of Nagios Core, and is more GUI-driven than command line driven.  The author still likes the command line, so Nagios XI will not be addressed in this document.  Perhaps it will be at a later date.
+This document describes how to install Apache v2.4.52 and Nagios v4.5.1 on AlmaLinux v9.3 running on an x86_64 architecture virtual server. 
 
 
 ## Prepare the server 
 To prepare for installations of Apache and Nagios, perform the following steps.
 
-- Install a Linux on the platform of your choice.  This document was written using Ubuntu Desktop 22.04
-- Open a terminal session.
-- Upgrade the system:
-
-```
-sudo apt update
-sudo apt upgrade -y
-```
-
-- Ubuntu Desktop does not come with an SSH server installed.  To install openSSH, git and vim, run the following command:
-
-```
-sudo apt install -y openssh-server git vim
-```
-
-The OpenSSH server should now be running, so you can work from an SSH session if you prefer.
-
 ## Install Apache
 To install Apache and co-requisite packages, perform the following:
+
+- Login as root:
+
 ```
-sudo apt install -y apache2 libssl-dev php php-cli gcc glibc glibc-common gd gd-devel net-snmp openssl-devel 
+id
+uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
 ```
 
-**NOTE:** A number of these packages do not exist in Ubuntu, but they are left in to test with RHEL.
-
-The directory ``/srv/`` is a better choice for Web server data than ``/var/`` per the *Linux Filesystem Hierarchy* standard. 
-
-- Create a new directory ``/srv/www/html`` for Web data:
+- Update the system:
 ```
-cd /srv
-sudo mkdir -p www/html 
+dnf check-update
+dnf update
 ```
+
+- Install Apache and associate tools:
+
+```
+dnf install httpd httpd-tools
+```
+
+- Start the ``httpd`` service now and at set it to start at boot time:
+
+```
+systemctl status httpd
+systemctl enable httpd
+```
+
+- Allow ``http`` and ``https`` traffic through the firewall:
+
+```
+firewall-cmd --zone=public --add-service=http --permanent
+firewall-cmd --zone=public --add-service=https --permanent
+```
+
 
 - Create a sample HTML file.
 
 ```
-cd www/html
-sudo vi index.html
+cd /var/www/html
+vi index.html
 ```
 
 - Add the following contents:
