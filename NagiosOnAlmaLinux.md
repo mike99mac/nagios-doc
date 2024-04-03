@@ -88,7 +88,7 @@ usermod -g nagios -G nagios,nagcmd nagios
 sudo usermod -a -G nagcmd apache 
 ```
 
-- Show the update user ids:
+- Show the updated user ids:
 
 ```
 id nagios
@@ -100,9 +100,9 @@ uid=48(apache) gid=48(apache) groups=48(apache),1001(nagcmd)
 ## Build Nagios
 To build Nagios, perform the following steps.
 
-- Create the directory ``nagios`` in the home directory:
+- Create the directory ``nagios`` in the nagios user's home directory:
 ```
-cd
+cd /home/nagios
 mkdir nagios
 cd nagios/
 ```
@@ -124,15 +124,13 @@ tar xvf nagios-4.5.1.tar.gz
 cd nagios-4.5.1
 ```
 
-- Create the ``Makefile``. Set the architecture with the ``--build`` option. In this exampe ``aarch64`` is used because this was run and an ARM Raspberry Pi.
-
-**NOTE:** the location of the ssl libraries specified by ``--with-ssl-lib`` will depend on architecture.
+- Create the ``Makefile``. Set the architecture with the ``--build`` option. In this exampe ``x86_64`` is used because this was run on an 64-bit Intel server.
 
 ```
 ./configure --with-command-group=nagcmd --build=x86_64-unknown-linux-gnu 
 ```
 
-- Build Nagios core with ``make``:
+- Build Nagios core with ``make all``:
 
 ```
 make all
@@ -150,7 +148,7 @@ make install-daemoninit
 systemctl enable nagios
 ```
 
-- Install Nagios command mode
+- Install Nagios command mode:
 
 ```
 make install-commandmode
