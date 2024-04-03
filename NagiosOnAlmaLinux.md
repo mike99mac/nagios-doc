@@ -88,16 +88,13 @@ usermod -g nagios -G nagios,nagcmd nagios
 sudo usermod -a -G nagcmd apache 
 ```
 
+- Show the update user ids:
+
+```
 id nagios
 uid=1000(nagios) gid=1000(nagios) groups=1000(nagios),1001(nagcmd)
 id apache
 uid=48(apache) gid=48(apache) groups=48(apache),1001(nagcmd)
-```
-
-- Switch to the new ``nagios`` user: 
-
-```
-su - nagios
 ```
 
 ## Build Nagios
