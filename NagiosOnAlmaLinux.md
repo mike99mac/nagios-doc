@@ -230,47 +230,53 @@ which is actually the ``"/usr/local/nagios/sbin"`` directory.
 - Edit the file:
 
 ```
-cd /etc/apache2/sites-available
-vi nagios.conf
+cd /etc/httpd/conf                
+vi httpd.conf
 ```
 
-- Replace it with the following content:
+- Add the following aliases and directory definitions
 
 ```
-<VirtualHost *:80>
-  ServerAdmin admin@example.com
-  DocumentRoot /srv/www/html
-  ServerName model1500
-
-  <Directory "/srv/www/html">
-    Options Indexes FollowSymLinks
-    AllowOverride all
-    Require all granted
-  </Directory>
-
-  ScriptAlias /nagios/cgi-bin "/usr/local/nagios/sbin"
-  <Directory "/usr/local/nagios/sbin">
-    Options ExecCGI
-    AllowOverride None
-    AuthName "Nagios Access"
-    AuthType Basic
-    AuthUserFile /usr/local/nagios/etc/htpasswd.users
-    Require valid-user
+...
+ScriptAlias /nagios/cgi-bin "/usr/local/nagios/sbin"
+<Directory "/usr/local/nagios/sbin">
+   Options ExecCGI
+   AllowOverride None
+   <RequireAll>
+     Require all granted
+     AuthName "Nagios Access"
+     AuthType Basic
+     AuthUserFile /usr/local/nagios/etc/htpasswd.users
+     Require valid-user
+   </RequireAll>
 </Directory>
 
-  Alias /nagios "/usr/local/nagios/share"
-  <Directory "/usr/local/nagios/share">
-    Options None
-    AllowOverride None
-    AuthName "Nagios Access"
-    AuthType Basic
-    AuthUserFile /usr/local/nagios/etc/htpasswd.users
-    Require valid-user
-  </Directory>
+Alias /nagios "/usr/local/nagios/share"
+<Directory "/usr/local/nagios/share">
+   Options None
+   AllowOverride None
+   <RequireAll>
+     Require all granted
+     AuthName "Nagios Access"
+     AuthType Basic
+     AuthUserFile /usr/local/nagios/etc/htpasswd.users
+     Require valid-user
+   </RequireAll>
+</Directory>
+```
 
-  ErrorLog ${APACHE_LOG_DIR}/error.log
-  CustomLog ${APACHE_LOG_DIR}/access.log combined
-</VirtualHost>
+- Set the ownership of the password file to ``nagios`` and set the permisison bits accordingly:
+
+```
+chown apache.apache /usr/local/nagios/etc/htpasswd.users
+chmod 640 /usr/local/nagios/etc/htpasswd.users
+```
+
+- Open the firewall to ``http:`` traffic permanently:
+
+```
+firewall-cmd --add-port=80/tcp --permanent
+firewall-cmd --reload
 ```
 
 ### Enable Nagios to start at boot time
@@ -330,6 +336,7 @@ systemctl status nagios
 To test Nagios, point a browser to your new site.  In this example, the URL is ``http://model1500/nagios``.
 
 You should be challenged for the credentials in the ``/usr/local/nagios/etc/htpasswd.users`` file created earlier.
+
 
 **TODO:** get a screen shot
 
