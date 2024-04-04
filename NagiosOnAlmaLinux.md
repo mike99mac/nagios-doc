@@ -342,7 +342,7 @@ cd objects
 vi hosts.cfg
 ```
 
-- Add the following content:
+- Add the following content, The ``check_command`` with a value of ``check_tcp!22`` means check that the host is listing on port 22 which is typically the ``sshd`` daemon:
 
 ```
 define host {
@@ -353,7 +353,7 @@ define host {
   max_check_attempts    3
   check_period          24x7
   contact_groups        admins
-  check_command         check_tcp!192.168.16.39!22 
+  check_command         check_tcp!22 
  }
 
 define host {
@@ -364,7 +364,7 @@ define host {
   max_check_attempts    3
   register              1
   contact_groups        admins
-  check_command         check_tcp!192.168.16.34!22 
+  check_command         check_tcp!22 
  }
 
 ```
