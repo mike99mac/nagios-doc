@@ -206,7 +206,7 @@ To build and install the Nagios plugins, perform the following steps.
 - Untar the plugins code:
 
 ```
-cd /home/nagios/nagios
+cd ~/nagios
 tar xzf nagios-plugins-2.4.9.tar.gz
 cd nagios-plugins-2.4.9
 ```
@@ -224,14 +224,14 @@ make
 make install
 ```
 
-If all went well, the Nagios plugins are now built and installed.
+The Nagios plugins are now built and installed.
 
 ### Update Apache to add Nagios 
 Now that Nagios and the plugins are installed, the Apache configuration file can be 
 updated to point to the Nagios home page and the ``cgi-bin/`` directory.
 which is actually the ``"/usr/local/nagios/sbin"`` directory.
 
-- Edit the file:
+- Edit the Apache configuration file:
 
 ```
 cd /etc/httpd/conf                
@@ -285,48 +285,6 @@ firewall-cmd --add-port=80/tcp --permanent
 firewall-cmd --reload
 ```
 
-### Enable Nagios to start at boot time
-To eable Nagios to start at boot time, perform the following steps.
-
-- Create a systemd service file in ``/etc/systemd/system``: 
-
-``` 
-cd /etc/systemd/system
-vi nagios.service
-```
-
-- Add the following content:
-
-```
-[Unit]
-Description=Nagios
-BindTo=network.target
-[Install]
-WantedBy=multi-user.target
-[Service]
-Type=simple
-User=nagios
-Group=nagios
-ExecStart=/usr/local/nagios/bin/nagios /usr/local/nagios/etc/nagios.cfg
-ExecStop=/usr/bin/kill -s TERM ${MAINPID}
-ExecStopPost=/usr/bin/rm -f /usr/local/nagios/var/rw/nagios.cmd
-ExecReload=/usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg
-ExecReload=/usr/bin/kill -s HUP ${MAINPID}
-```
-
-- Reload the systemd unit files:
- 
-```
-sudo systemctl daemon-reload
-```
-
-- Set the Nagios service to start at boot time and for the current session:
-
-```
-systemctl enable nagios
-systemctl start nagios
-```
-
 ## Test Nagios
 
 - Check the status of Nagios.  It should be running:
@@ -339,9 +297,14 @@ systemctl status nagios
      ...
 ```
 
-To test Nagios, point a browser to your new site.  In this example, the URL is ``http://model1500/nagios``.
+- Point a browser to your new Nagios home page.  In this example, the URL is ``http://model1500/nagios``.
 
 You should be challenged for the credentials in the ``/usr/local/nagios/etc/htpasswd.users`` file created earlier.
+
+The home page should look similar to the following:
+
+![](nagios-mmac01.jpg.jpg)
+*Nagios home page
 
 
 **TODO:** get a screen shot
