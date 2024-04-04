@@ -64,7 +64,7 @@ vi index.html
 </html>
 ```
 
-- Test your web server by pointing a browser to it.  In this example the URL is ``http://mmac01.devlab.sinenomine.net/index.html``.
+- Test your web server by pointing a browser to it.  In this example the URL is ``http://mmac01.example.com/index.html``.
 
     This shows that Apache is running and serving pages.
 
@@ -184,7 +184,7 @@ define contact {
     contact_name            nagiosadmin             ; Short name of user
     use                     generic-contact         ; Inherit default values from generic-contact template (defined above)
     alias                   Nagios Admin            ; Full name of user
-    email                   mmacisaac@sinenomine.net
+    email                   mmacisaac@example.com
 }
 ...
 ```
@@ -304,47 +304,76 @@ You should be challenged for the credentials in the ``/usr/local/nagios/etc/htpa
 The home page should look similar to the following:
 
 ![](nagios-mmac01.jpg)
-*Nagios home page
+Nagios home page
 
-
-**TODO:** get a screen shot
-
-# Add Nagios agents to servers to be monitored
+# Configure Nagios 
 The Nagios help pages are here: https://assets.nagios.com/downloads/nagioscore/docs/nagioscore/4/en/config.html
+
+TODO: Is NCPA and agent or yet another monitoring tool?
 
 https://www.nagios.org/ncpa/#downloads
 
-A good reference for building and installing ``ncpa`` is here: https://github.com/NagiosEnterprises/ncpa/blob/master/BUILDING.rst#building-ncpa
+## Start monitoring
 
-## Building the ncpa agent
-To build and install ``ncpa``, perform the following steps.
+To start monnitoring some servers, perform the following steps.
 
-- Clone the code from ``github``:
-
-```
-git clone https://github.com/NagiosEnterprises/ncpa
-```
-
-- Change to the ``ncpa/build`` directory and run ``build.sh`` to build the agent:
-This step can take more than 20 minutes:
+- Change to the Nagios ``/etc`` directory and make a copy of the original configuration file:
 
 ```
-cd ncpa/build
-./build.sh
+cd /usr/local/nagios/etc
+cp nagios.cfg nagios.cfg.orig
 ```
 
-- Show the resulting ``.deb`` file:
+- Add one line pointing to a new ``hosts.cfg`` file.
 
 ```
-file *.deb
-ncpa_3.0.2-1_arm64.deb: Debian binary package (format 2.0), with control.tar.zs, data compression zst
+vi nagios.cfg
+...
+diff nagios.cfg nagios.cfg.orig
+37,39d36
+< # Add a config file of hosts to monitor   -MM2
+< cfg_file=/usr/local/nagios/etc/objects/hosts.cfg
 ```
 
-- Install the new package:
+- Change directory to ``objects`` and create the new file named ``hosts.cfg``:
+
+``` 
+cd objects
+vi hosts.cfg
+```
+
+- Add the following content:
 
 ```
-sudo dpkg -i ncpa_3.0.2-1_arm64.deb
+define host {
+  use                   generic-host
+  host_name             mmac02.example.com
+  alias                 Laptop
+  address               192.168.16.39
+  max_check_attempts    3
+  check_period          24x7
+  contact_groups        admins
+  check_command         check_tcp!192.168.16.39!22 
+ }
+
+define host {
+  use                   generic-host
+  host_name             cts7xdev.example.com
+  alias                 Minimy-server
+  address               192.168.16.43
+  max_check_attempts    3
+  register              1
+  contact_groups        admins
+  check_command         check_tcp!192.168.16.34!22 
+ }
+
+```
+*TODO:* VMware Vcenter has a RESTful API to manipulate virtual machines.  For example, the following HTTP POST method will reboot a virtual machine:
+
+``` 
+https://{api_host}/api/vcenter/vm/{vm}/guest/power?action=reboot
 ```
 
+This URL was obtained from here: https://developer.vmware.com/apis/vsphere-automation/latest/vcenter/api/vcenter/vm/vm/guest/poweractionreboot/post/
 
-
+It would be good to be able to remotely manipulate virtual machines.
