@@ -1,6 +1,9 @@
 # Installing Apache and Nagios 
 This document describes how to install Apache v2.4.52 and Nagios v4.5.1 on AlmaLinux v9.3 running on an x86_64 architecture virtual server. 
 
+Following is a good decription of how to do this: 
+
+https://operavps.com/docs/install-nagios-on-linux/
 
 ## Prepare the server 
 To prepare for installations of Apache and Nagios, perform the following steps.
@@ -12,7 +15,7 @@ yum update
 ```
 
 ## Install Apache
-To install Apache and co-requisite packages, perform the following:
+To install Apache and co-requisite packages, perform the following steps:
 
 - Login as root:
 
@@ -30,7 +33,7 @@ yum install gcc glibc glibc-common wget unzip httpd httpd-tools php gd gd-devel 
 - Start the ``httpd`` service now and at set it to start at boot time:
 
 ```
-systemctl status httpd
+systemctl start httpd
 systemctl enable httpd
 ```
 
@@ -62,7 +65,8 @@ vi index.html
 ```
 
 - Test your web server by pointing a browser to it.  In this example the URL is ``http://mmac01.devlab.sinenomine.net/index.html``.
-You should see rendering of the HTML file you just created.  This means that Apache is running and serving pages.
+
+    This shows that Apache is running and serving pages.
 
 ## Prepare Nagios
 To prepare to install Nagios, perform the following steps.
@@ -164,6 +168,12 @@ make install-commandmode
 make install-config
 ```
 
+- Install the web server related code:
+
+```
+make install-webconf
+```
+
 - Configure the web interface - replace the email address for the Web admin:
 
 ```
@@ -179,12 +189,6 @@ define contact {
 ...
 ```
 
-- Install the web server related code:
-
-```
-make install-webconf
-```
-
 - Create a password file for the user ``nagiosadmin``. These will set the credentials needed to access the site:
 
 ```
@@ -194,7 +198,7 @@ Re-type new password:
 Adding password for user nagiosadmin
 ```
 
-Remember the credentials!
+    Remember the credentials!
 
 ### Build and install Nagios plugins
 To build and install the Nagios plugins, perform the following steps.
@@ -234,10 +238,12 @@ cd /etc/httpd/conf
 vi httpd.conf
 ```
 
-- Add the following aliases and directory definitions
+- Add the following aliases and directory definitions after the ``DocumentRoot`` line:
 
 ```
 ...
+DocumentRoot "/var/www/html"
+
 ScriptAlias /nagios/cgi-bin "/usr/local/nagios/sbin"
 <Directory "/usr/local/nagios/sbin">
    Options ExecCGI
