@@ -303,7 +303,7 @@ You should be challenged for the credentials in the ``/usr/local/nagios/etc/htpa
 
 The home page should look similar to the following:
 
-![](nagios-mmac01.jpg.jpg)
+![](nagios-mmac01.jpg)
 *Nagios home page
 
 
