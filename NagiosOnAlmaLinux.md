@@ -198,7 +198,7 @@ Re-type new password:
 Adding password for user nagiosadmin
 ```
 
-    Remember the credentials!
+&nbsp;&nbsp;&nbsp;&nbsp;Remember the credentials!
 
 ### Build and install Nagios plugins
 To build and install the Nagios plugins, perform the following steps.
