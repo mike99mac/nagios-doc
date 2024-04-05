@@ -87,7 +87,7 @@ usermod -g nagios -G nagios,nagcmd nagios
 - Add the group ``nagcmd`` to the user ``apache``: 
 
 ```
-sudo usermod -a -G nagcmd apache 
+usermod -a -G nagcmd apache 
 ```
 
 - Show the updated user ids:
@@ -144,7 +144,7 @@ To install Nagios, perform the following steps.
 - Install the code with the following ``make`` commands:
 
 ```
-sudo make install
+make install
 ```
 
 - Install the systemd ``nagios.service`` file and enable it to start at boot time:
@@ -267,13 +267,7 @@ Alias /nagios "/usr/local/nagios/share"
      Require valid-user
    </RequireAll>
 </Directory>
-```
-
-- Set the ownership of the password file to ``apache`` and set the permisison bits accordingly:
-
-```
-chown apache.apache /usr/local/nagios/etc/htpasswd.users
-chmod 640 /usr/local/nagios/etc/htpasswd.users
+...
 ```
 
 - Open the firewall to ``http:`` traffic permanently:
@@ -295,7 +289,7 @@ systemctl status nagios
      ...
 ```
 
-- Point a browser to your new Nagios home page.  In this example, the URL is ``http://model1500/nagios``.
+- Point a browser to your new Nagios home page.  In this example, the URL is ``http://mmac01.example.com/nagios``.
 
 You should be challenged for the credentials in the ``/usr/local/nagios/etc/htpasswd.users`` file created earlier.
 
