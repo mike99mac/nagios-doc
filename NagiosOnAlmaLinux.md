@@ -323,23 +323,21 @@ diff nagios.cfg nagios.cfg.orig
 < cfg_file=/usr/local/nagios/etc/objects/hosts.cfg
 ```
 
-- Change directory to ``objects`` and create the new file named ``hosts.cfg``:
+- Change directory to ``objects`` and create a new file named ``hosts.cfg``:
 
 ``` 
 cd objects
 vi hosts.cfg
 ```
 
-- Add the following content, The ``check_command`` with a value of ``check_tcp!22`` means check that the host is listing on port 22 which is typically the ``sshd`` daemon:
+- Add some hosts to monitor. In this example there are two hosts with their IP address, host name and aliases. The ``check_command`` with a value of ``check_tcp!22`` means check that the host is listing on port 22 which is typically the ``sshd`` daemon:
 
 ```
 define host {
   use                   generic-host
   host_name             mmac02.example.com
-  alias                 Laptop
+  alias                 SLES-server
   address               192.168.16.39
-  max_check_attempts    3
-  check_period          24x7
   contact_groups        admins
   check_command         check_tcp!22 
  }
@@ -347,21 +345,16 @@ define host {
 define host {
   use                   generic-host
   host_name             cts7xdev.example.com
-  alias                 Minimy-server
+  alias                 zLinux-server
   address               192.168.16.43
-  max_check_attempts    3
-  register              1
   contact_groups        admins
   check_command         check_tcp!22 
  }
 
+- Restart Nagios:
+
 ```
-*TODO:* VMware Vcenter has a RESTful API to manipulate virtual machines.  For example, the following HTTP POST method will reboot a virtual machine:
-
-``` 
-https://{api_host}/api/vcenter/vm/{vm}/guest/power?action=reboot
+service nagios restart
 ```
 
-This URL was obtained from here: https://developer.vmware.com/apis/vsphere-automation/latest/vcenter/api/vcenter/vm/vm/guest/poweractionreboot/post/
-
-It would be good to be able to remotely manipulate virtual machines.
+Wait a while for Nagios to scan the hosts.  Then you should see their status if you drill down into ``Hosts`` on the left side of the home page.
