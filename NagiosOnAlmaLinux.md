@@ -8,6 +8,13 @@ https://operavps.com/docs/install-nagios-on-linux/
 ## Prepare the server 
 To prepare for installations of Apache and Nagios, perform the following steps.
 
+- Login to a console or SSH session as root:
+
+```
+id
+uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+```
+
 - Update the system:
 ```
 yum check-update
@@ -15,16 +22,9 @@ yum update
 ```
 
 ## Install Apache
-To install Apache and co-requisite packages, perform the following steps:
+To install Apache, perform the following steps:
 
-- Login as root:
-
-```
-id
-uid=0(root) gid=0(root) groups=0(root) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
-```
-
-- Install Apache and associated packages:
+- Install Apache and co-requisite packages:
 
 ```
 yum install gcc glibc glibc-common wget unzip httpd httpd-tools php gd gd-devel openssh-devel perl postfix
@@ -121,7 +121,7 @@ wget https://github.com/nagios-plugins/nagios-plugins/releases/download/release-
 ### Build the Nagios core
 To build the Nagios core, perform the following steps.
 
-- Untar the code and change to that directory:
+- Untar the code and change to the new directory:
 
 ```
 tar xvf nagios-4.5.1.tar.gz
@@ -203,7 +203,7 @@ Adding password for user nagiosadmin
 ### Build and install Nagios plugins
 To build and install the Nagios plugins, perform the following steps.
 
-- Untar the plugins code:
+- Untar the plugins code and change to the new directory:
 
 ```
 cd ~/nagios
@@ -229,7 +229,7 @@ The Nagios plugins are now built and installed.
 ### Update Apache to add Nagios 
 Now that Nagios and the plugins are installed, the Apache configuration file can be 
 updated to point to the Nagios home page and the ``cgi-bin/`` directory.
-which is actually the ``"/usr/local/nagios/sbin"`` directory.
+which is aliased to the ``"/usr/local/nagios/sbin"`` directory.
 
 - Edit the Apache configuration file:
 
@@ -271,7 +271,7 @@ Alias /nagios "/usr/local/nagios/share"
 </Directory>
 ```
 
-- Set the ownership of the password file to ``nagios`` and set the permisison bits accordingly:
+- Set the ownership of the password file to ``apache`` and set the permisison bits accordingly:
 
 ```
 chown apache.apache /usr/local/nagios/etc/htpasswd.users
@@ -308,10 +308,6 @@ Nagios home page
 
 # Configure Nagios 
 The Nagios help pages are here: https://assets.nagios.com/downloads/nagioscore/docs/nagioscore/4/en/config.html
-
-TODO: Is NCPA and agent or yet another monitoring tool?
-
-https://www.nagios.org/ncpa/#downloads
 
 ## Start monitoring
 
