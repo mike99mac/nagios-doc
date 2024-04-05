@@ -350,6 +350,7 @@ define host {
   contact_groups        admins
   check_command         check_tcp!22 
  }
+```
 
 - Restart Nagios:
 
@@ -357,4 +358,5 @@ define host {
 service nagios restart
 ```
 
-Wait a while for Nagios to scan the hosts.  Then you should see their status if you drill down into ``Hosts`` on the left side of the home page.
+Wait a while for Nagios to scan the hosts.  
+Then you should see their status if you drill down into ``Hosts`` on the left side of the Nagios home page.
