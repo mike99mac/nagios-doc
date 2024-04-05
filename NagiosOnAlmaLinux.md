@@ -1,9 +1,7 @@
 # Installing Apache and Nagios 
 This document describes how to install Apache v2.4.52 and Nagios v4.5.1 on AlmaLinux v9.3 running on an x86_64 architecture virtual server. 
 
-Following is a good decription of how to do this: 
-
-https://operavps.com/docs/install-nagios-on-linux/
+This writeup was used to help creat this document: &nbsp;&nbsp;https://operavps.com/docs/install-nagios-on-linux/
 
 ## Prepare the server 
 To prepare for installations of Apache and Nagios, perform the following steps.
