@@ -1,11 +1,17 @@
-# Installing Grafana
 
 **NOTE:**
 
-This is a document focused on Nagios, but we are moving away from Nagios, so this is just a place to drop some quick notes.
+This was a Nagios HOWTO, but we are moving away from Nagios, so this is just a place to drop some quick notes.
 
+**END NOTE:**
 
-his document is based on this Grafana document:  ``https://grafana.com/docs/grafana/latest/setup-grafana/installation/redhat-rhel-fedora/``
+# Installing Grafana 
+
+These steps are based on this Grafana document: 
+
+```
+https://grafana.com/docs/grafana/latest/setup-grafana/installation/redhat-rhel-fedora/
+```
 
 To install Grafana, perform the following steps.
 
@@ -79,7 +85,7 @@ sudo systemctl enable grafana-server
 sudo systemctl disable firewalld
 ```
 
-- Turn off SELinux:
+- Turn off SELinux (forever hopefully)):
 
 ```
 cd /etc/selinux/
