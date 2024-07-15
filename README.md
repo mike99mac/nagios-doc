@@ -85,6 +85,13 @@ sudo systemctl enable grafana-server
 sudo systemctl disable firewalld
 ```
 
+- YOOO - this should have opened the port, but did not???
+
+```
+sudo iptables -I INPUT -p tcp --dport 3000 -j ACCEPT
+sudo iptables -I OUTPUT -p tcp --dport 3000 -j ACCEPT
+```
+
 - Turn off SELinux (forever hopefully)):
 
 ```
@@ -104,8 +111,8 @@ sudo reboot
 
 When the server is back up, point a browser to port 3000. In this example it is ``http://172.17.16.55:3000/login``
 
+You should see a Grafan login page.
 
-sudo iptables -I INPUT -m state --state NEW -p tcp --dport 3000 -j ACCEPT
 
 # Installing Apache and Nagios 
 
