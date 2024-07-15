@@ -1,4 +1,108 @@
+# Installing Grafana
+
+**NOTE:**
+
+This is a document focused on Nagios, but we are moving away from Nagios, so this is just a place to drop some quick notes.
+
+
+his document is based on this Grafana document:  ``https://grafana.com/docs/grafana/latest/setup-grafana/installation/redhat-rhel-fedora/``
+
+To install Grafana, perform the following steps.
+
+- Install AlmaLinux 9.4 onto a zLinux virtual machine.
+
+```
+head -2 /etc/os-release
+NAME="AlmaLinux"
+VERSION="9.4 (Seafoam Ocelot)"
+```
+
+- Install some co-requisite packages:
+
+```
+sudo dnf install git mlocate net-tools podman vim wget
+```
+
+- Get the Grafana GPG key:
+
+```
+wget -q -O gpg.key https://rpm.grafana.com/gpg.key
+```
+
+- Import the key:
+
+```
+sudo rpm --import gpg.key
+```
+
+- Create a new Yum repo:
+
+```
+cat /etc/yum.repos.d/grafana.repo
+[grafana]
+name=grafana
+baseurl=https://rpm.grafana.com
+repo_gpgcheck=1
+enabled=1
+gpgcheck=1
+gpgkey=https://rpm.grafana.com/gpg.key
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+```
+
+- Install Grafana:
+
+```
+time sudo dnf install grafana
+...
+Complete!
+
+real    9m50.396s
+...
+```
+
+- Reload systemd files:
+
+```
+sudo systemctl daemon-reload
+```
+
+- Set the Grafana service to start at boot time:
+
+```
+sudo systemctl enable grafana-server
+```
+
+- Turn off the firewall (for now):
+
+```
+sudo systemctl disable firewalld
+```
+
+- Turn off SELinux:
+
+```
+cd /etc/selinux/
+diff config config.orig
+22c22
+< SELINUX=disabled
+---
+> SELINUX=enforcing
+```
+
+- Reboot
+
+```
+sudo reboot
+```
+
+When the server is back up, point a browser to port 3000. In this example it is ``http://172.17.16.55:3000/login``
+
+
+sudo iptables -I INPUT -m state --state NEW -p tcp --dport 3000 -j ACCEPT
+
 # Installing Apache and Nagios 
+
 This document describes how to install Apache v2.4.52 and Nagios v4.5.1 on Ubuntu Desktop v22.04 running on an ARM architecture Raspberry Pi 4.
 
 It addresses *Nagios Core* vs *Nagios XI* which is built on top of Nagios Core, and is more GUI-driven than command line driven.  The author still likes the command line, so Nagios XI will not be addressed in this document.  Perhaps it will be at a later date.
