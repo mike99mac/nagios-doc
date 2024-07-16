@@ -110,6 +110,40 @@ You should see a Grafana login page.
 
 # Installing Apache and Nagios 
 
+This section documents installing node.js
+
+- Update the system. This could take some time.
+
+```
+time sudo dnf update
+```
+
+- List the versions of node.js available to install:
+
+```
+dnf module list nodejs
+```
+
+- Install node.js version 20:
+
+```
+time sudo dnf module install nodejs:20
+...
+Complete!
+real    2m14.029s
+...
+```
+
+- Show the installed package:
+
+``` 
+dnf list nodejs
+...
+nodejs.s390x                               1:20.12.2-2.module_el9.4.0+100+71fc9528  
+``` 
+
+# Installing Apache and Nagios 
+
 This document describes how to install Apache v2.4.52 and Nagios v4.5.1 on Ubuntu Desktop v22.04 running on an ARM architecture Raspberry Pi 4.
 
 It addresses *Nagios Core* vs *Nagios XI* which is built on top of Nagios Core, and is more GUI-driven than command line driven.  The author still likes the command line, so Nagios XI will not be addressed in this document.  Perhaps it will be at a later date.
