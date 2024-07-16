@@ -108,14 +108,18 @@ When the server is back up, point a browser to port 3000. In this example it is 
 You should see a Grafana login page.
 
 
-# Installing Apache and Nagios 
+# Installing Node.js 
 
-This section documents installing node.js
+To install node.js, perform the following steps.
 
 - Update the system. This could take some time.
 
 ```
 time sudo dnf update
+...
+Complete!
+real    19m42.972s
+...
 ```
 
 - List the versions of node.js available to install:
