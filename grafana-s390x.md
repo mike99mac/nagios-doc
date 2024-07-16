@@ -147,15 +147,11 @@ dnf list nodejs
 nodejs.s390x                               1:20.12.2-2.module_el9.4.0+100+71fc9528  
 ``` 
 
-## Create a Grafana contaier
+## Create a Grafana container
 
 To create a container with s390x, perform the following steps:
 
 - Create a ``Dockerfile``:
-
-```
-cat Dockerfile
-```
 
 ```
 # Use an appropriate base image for s390x
@@ -198,9 +194,53 @@ WORKDIR /usr/share/grafana
 CMD ["grafana-server", "--homepath=/usr/share/grafana", "--config=/etc/grafana/grafana.ini"]
 ```
 
-- Build the container
+- Build the container:
 
 ```
 sudo podman run -d --name grafana -p 3000:3000 grafana-almalinux-s390x
 ```
 
+```
+time sudo podman build -t dockerfile .
+```
+
+Output from 7/16/24:
+```
+STEP 1/10: FROM docker.io/s390x/almalinux:9.4
+STEP 2/10: ENV GRAFANA_VERSION 9.0.0
+--> Using cache 54606bacd78b50320e6db9488be7c242b87adde9d2fc6968e5d05e99af145c4c
+--> 54606bacd78b
+STEP 3/10: ENV ARCH s390x
+--> Using cache 38d34df59619847b8591bd0cf806bee68f3bec1eebabcbc909e54a8bcadedee5
+--> 38d34df59619
+STEP 4/10: RUN dnf -y update &&     dnf -y install wget tar gzip make go &&     dnf clean all
+--> Using cache 4cd9d208e284c434580c60bcb4f983f9164d4a32287c10193011c98ad8fa0a6b
+--> 4cd9d208e284
+STEP 5/10: RUN wget https://github.com/grafana/grafana/archive/refs/tags/v11.1.0.tar.gz &&     tar -zxvf v                  11.1.0.tar.gz &&     rm v11.1.0.tar.gz
+--> Using cache 1d19728857ad4b519cda330ffdcfc6740c44342c39ad4e86c6216344bd959e3e
+--> 1d19728857ad
+STEP 6/10: RUN cd grafana-11.1.0 &&     make &&     cd .. &&     mv grafana-11.1.0 /usr/share/grafana &&                       ln -s /usr/share/grafana/bin/grafana-server /usr/sbin/grafana-server &&     ln -s /usr/share/grafana/bi                  n/grafana-cli /usr/sbin/grafana-cli
+(re)installing /root/go/bin/bra-v0.0.0-20200517080246-1e3013ecaff8
+go: downloading github.com/unknwon/bra v0.0.0-20200517080246-1e3013ecaff8
+go: downloading github.com/urfave/cli v1.22.1
+go: downloading github.com/unknwon/log v0.0.0-20150304194804-e617c87089d3
+go: downloading github.com/unknwon/com v1.0.1
+go: downloading gopkg.in/fsnotify/fsnotify.v1 v1.4.7
+go: downloading github.com/BurntSushi/toml v0.3.1
+go: downloading golang.org/x/sys v0.0.0-20220615213510-4f61da869c0c
+go: downloading github.com/cpuguy83/go-md2man/v2 v2.0.0-20190314233015-f79a8a8ca69d
+go: downloading github.com/russross/blackfriday/v2 v2.0.1
+go: downloading github.com/shurcooL/sanitized_anchor_name v1.0.0
+--> 18702dbd4f5b
+STEP 7/10: RUN useradd -r -s /sbin/nologin grafana &&     mkdir -p /etc/grafana /var/lib/grafana /var/log/grafana &&     chown -R grafana:grafana /etc/grafana /var/lib/grafana /var/log/grafana
+--> 4c8249ecb40a
+STEP 8/10: EXPOSE 3000
+--> 0f26848819f3
+STEP 9/10: WORKDIR /usr/share/grafana
+--> 39298b880e9d
+STEP 10/10: CMD ["grafana-server", "--homepath=/usr/share/grafana", "--config=/etc/grafana/grafana.ini"]
+COMMIT dockerfile
+--> 25a29edc53a0
+Successfully tagged localhost/dockerfile:latest
+25a29edc53a0be29b34e5b39577e10ebf7144f998cecab59c23b9d19deb21fa6
+```
