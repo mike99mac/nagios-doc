@@ -104,6 +104,8 @@ You should see a Grafana login page.
 
 ## Install Node.js 
 
+It does not appear that Grafana needs Node.js.  This section is added as a reference.
+
 To install node.js, perform the following steps.
 
 - Update the system. This could take some time.
@@ -176,6 +178,7 @@ RUN wget https://github.com/grafana/grafana/archive/refs/tags/v11.1.0.tar.gz && 
 # Build Grafana
 RUN cd grafana-11.1.0 && \
     make && \
+    cd .. && \
     mv grafana-11.1.0 /usr/share/grafana && \
     ln -s /usr/share/grafana/bin/grafana-server /usr/sbin/grafana-server && \
     ln -s /usr/share/grafana/bin/grafana-cli /usr/sbin/grafana-cli
@@ -193,5 +196,11 @@ WORKDIR /usr/share/grafana
 
 # Set the default command to run Grafana
 CMD ["grafana-server", "--homepath=/usr/share/grafana", "--config=/etc/grafana/grafana.ini"]
+```
+
+- Build the container
+
+```
+sudo podman run -d --name grafana -p 3000:3000 grafana-almalinux-s390x
 ```
 
