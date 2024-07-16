@@ -79,16 +79,14 @@ sudo systemctl daemon-reload
 sudo systemctl enable grafana-server
 ```
 
-- Turn off the firewall (for now) TODO: why did the ``iptables`` commands not work?
+- Open port 3000 in the firewall: 
 
 ```
-sudo systemctl disable firewalld
-
-sudo iptables -I INPUT -p tcp --dport 3000 -j ACCEPT
-sudo iptables -I OUTPUT -p tcp --dport 3000 -j ACCEPT
+sudo firewall-cmd --zone=public --permanent --add-port 3000/tcp
+sudo firewall-cmd --reload
 ```
 
-- Turn off SELinux (forever hopefully)):
+- Turn off SELinux:
 
 ```
 cd /etc/selinux/
@@ -99,7 +97,7 @@ diff config config.orig
 > SELINUX=enforcing
 ```
 
-- Reboot
+- Reboot for the changes to take effect:
 
 ```
 sudo reboot
@@ -107,7 +105,7 @@ sudo reboot
 
 When the server is back up, point a browser to port 3000. In this example it is ``http://172.17.16.55:3000/login``
 
-You should see a Grafan login page.
+You should see a Grafana login page.
 
 
 # Installing Apache and Nagios 
