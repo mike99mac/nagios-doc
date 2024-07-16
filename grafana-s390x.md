@@ -196,9 +196,6 @@ CMD ["grafana-server", "--homepath=/usr/share/grafana", "--config=/etc/grafana/g
 
 - Build the container:
 
-```
-sudo podman run -d --name grafana -p 3000:3000 grafana-almalinux-s390x
-```
 
 ```
 time sudo podman build -t dockerfile .
@@ -243,4 +240,21 @@ COMMIT dockerfile
 --> 25a29edc53a0
 Successfully tagged localhost/dockerfile:latest
 25a29edc53a0be29b34e5b39577e10ebf7144f998cecab59c23b9d19deb21fa6
+```
+
+- Show the container:
+
+```
+sudo podman ps -a
+CONTAINER ID  IMAGE                           COMMAND               CREATED      STATUS      PORTS                   NAMES
+d321b2746fe0  localhost/grafana-s390x:latest  grafana-server --...  4 hours ago  Created     0.0.0.0:3000->3000/tcp  grafana
+```
+
+- Run the container:
+
+We got the error below:  However, grafana-server should be a symlink in /usr/sbin/.  ???
+
+```
+sudo podman run -d --replace --name grafana -p 3000:3000 grafana-s390x
+Error: crun: executable file `grafana-server` not found in $PATH: No such file or directory: OCI runtime attempted to invoke a command that was not found
 ```
