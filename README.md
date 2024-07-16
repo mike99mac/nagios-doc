@@ -126,9 +126,14 @@ real    19m42.972s
 
 ```
 dnf module list nodejs
+...
+AlmaLinux 9 - AppStream
+Name                 Stream               Profiles                                           Summary
+nodejs               18                   common [d], development, minimal, s2i              Javascript runtime
+nodejs               20                   common [d], development, minimal, s2i              Javascript runtime
 ```
 
-- Install node.js version 20:
+- Install node.js version 20, the latest version avaiable at the time:
 
 ```
 time sudo dnf module install nodejs:20
