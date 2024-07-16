@@ -5,7 +5,7 @@ This was a Nagios HOWTO, but we are moving away from Nagios, so this is just a p
 
 **END NOTE:**
 
-# Installing Grafana 
+# Installing Grafana on zLinux
 
 These steps are based on this Grafana document: 
 
@@ -13,7 +13,7 @@ These steps are based on this Grafana document:
 https://grafana.com/docs/grafana/latest/setup-grafana/installation/redhat-rhel-fedora/
 ```
 
-To install Grafana, perform the following steps.
+To install Grafana into a z/VM virtual machine, perform the following steps.
 
 - Install AlmaLinux 9.4 onto a zLinux virtual machine.
 
@@ -79,15 +79,11 @@ sudo systemctl daemon-reload
 sudo systemctl enable grafana-server
 ```
 
-- Turn off the firewall (for now):
+- Turn off the firewall (for now) TODO: why did the ``iptables`` commands not work?
 
 ```
 sudo systemctl disable firewalld
-```
 
-- YOOO - this should have opened the port, but did not???
-
-```
 sudo iptables -I INPUT -p tcp --dport 3000 -j ACCEPT
 sudo iptables -I OUTPUT -p tcp --dport 3000 -j ACCEPT
 ```
