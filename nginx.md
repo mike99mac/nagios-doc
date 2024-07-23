@@ -20,7 +20,13 @@ dnf install epel-release
 - Install co-requisite packages:
 
 ```
-dnf install python3-pip python3-devel gcc
+dnf install cifs-utils git gcc mlocate net-tools pandoc python3 python3-pip 
+```
+
+- Clone the ``ovos-tools`` repo:
+
+```
+git clone https://github.com/mike99mac/ovos-tools
 ```
 
 - Install nginx:
@@ -88,19 +94,25 @@ cd /srv/
 ```
 
 ```
-python3 -m venv myenv
+python3 -m venv venv
 ```
-  
--Upgrade pip:
+
+- Activate the virtual environment:
 
 ```
-/srv/www/flask/venv/bin/python3 -m pip install --upgrade pip
+. venv/bin/activate
+```
+  
+- Upgrade pip:
+
+```
+python3 -m pip install --upgrade pip
 ```
 
 - Install flask and gunicorn:
 
 ```
-   16  pip3 install flask gunicorn
+pip3 install flask gunicorn
 ```
 
 - Create the file myflask.py:
@@ -141,7 +153,6 @@ python3 myflask.py
 
 ```
 - Open a browser
-
 - Create the file wsgi.py:
 
 ```
@@ -152,3 +163,5 @@ from myflask import app
 if __name__ == "__main__":
     app.run(debug=True)
 ```
+
+Now what?
