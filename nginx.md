@@ -20,13 +20,19 @@ dnf install epel-release
 - Install co-requisite packages:
 
 ```
-dnf install cifs-utils git gcc mlocate net-tools pandoc python3 python3-pip 
+dnf install cifs-utils git gcc mlocate net-tools python3 python3-pip 
 ```
 
 - Clone the ``ovos-tools`` repo:
 
 ```
 git clone https://github.com/mike99mac/ovos-tools
+```
+
+- Install the tools 
+
+```
+ovos-tools/setup.sh
 ```
 
 - Install nginx:
@@ -74,7 +80,7 @@ su - mikemac
 - Make a directory for flask:
 
 ```
-mkdir -p /srv/www/flask
+sudo mkdir -p /srv/www/flask
 ```
 
 - Set the owner and group to nginx:
@@ -82,6 +88,8 @@ mkdir -p /srv/www/flask
 ```
 sudo chown nginx:nginx /srv/www/flask
 ```
+
+- Set the permission bits to 755:
 
 ```
 sudo chmod 755 /srv/www/flask
@@ -94,19 +102,19 @@ cd /srv/
 ```
 
 ```
-python3 -m venv venv
+sudo python3 -m venv venv
 ```
 
 - Activate the virtual environment:
 
 ```
-. venv/bin/activate
+. /srv/venv/bin/activate
 ```
   
 - Upgrade pip:
 
 ```
-python3 -m pip install --upgrade pip
+sudo python3 -m pip install --upgrade pip
 ```
 
 - Install flask and gunicorn:
