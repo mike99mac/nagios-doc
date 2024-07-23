@@ -1,4 +1,4 @@
-# Using ngingx and gunicorn with flask
+# Using nginx and gunicorn with flask
 
 This page is based on this: ``https://www.howtoforge.com/how-to-install-flask-with-nginx-and-gunicorn-on-rocky-linux/``
 
@@ -24,7 +24,7 @@ dnf install cifs-utils git gcc mlocate net-tools python3 python3-pip
 ```
 
 ## Install ovos-tools
-This repo has a number of helpful small tools that will be installed in ``/usr/local/sbin``. 
+The ``ovos-tools`` repo has a number of helpful small tools that will be installed in ``/usr/local/sbin``. 
 - Clone the ``ovos-tools`` repo:
 
 ```
@@ -65,7 +65,7 @@ A non-root user is recommended.
 groupadd -g 1009 mikemac
 ```
 
-- Create a non-root user:
+- Create a non-root user adding the group ``wheel``:
 
 ```
 useradd -g 1009 -G wheel -u 1009 mikemac
@@ -102,7 +102,7 @@ sudo chown nginx:nginx /srv/www/flask
 sudo chmod 755 /srv/www/flask
 ```
 
-## Create a python 3.10 environment
+## Build a python 3.10 environment
 AlmaLinux 9.4 has Python 3.9 installed.  Python 3.10 is required for ``match`` statements.  
 
 To install Python 3.10, perform the following steps.
@@ -137,19 +137,19 @@ tar xzf Python-3.10.5.tgz
 cd Python-3.10.5
 ```
 
-- Configure the package:
+- Configure Python 3.10:
 
 ```
 ./configure --with-system-ffi --with-computed-gotos --enable-loadable-sqlite-extensions
 ```
 
-- Build the package:
+- Build Python 3.10 package:
 
 ```
 make -j ${nproc}
 ```
 
-- Install the package:
+- Install Python 3.10:
 
 ```
 sudo make altinstall
@@ -174,13 +174,13 @@ cd /srv/
 - Create a Python 3.10 virtual environment:
 
 ```
-sudo python3.10 -m venv venv
+sudo /usr/local/lib/python3.10 -m venv venv
 ```
 
 - Will this work?
 
 ## Change ownership and permissions
-The ownership and permissions of the virtual environment must be modified so the user ``nginx`` can write to it. To do so, perform the following steps.
+The ownership and permissions of the virtual environment should be modified so the user ``nginx`` can write to it. To do so, perform the following steps.
 
 - This should work
 ```
