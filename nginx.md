@@ -105,6 +105,15 @@ cd /srv/
 sudo python3 -m venv venv
 ```
 
+- Will this work?
+
+```
+sudo chgrp nginx /srv
+sudo chmod g+w /srv
+sudo chgrp -R nginx /srv/venv/
+sudo chmod -R g+w /srv/venv/
+```
+
 - Activate the virtual environment:
 
 ```
@@ -123,10 +132,9 @@ sudo python3 -m pip install --upgrade pip
 pip3 install flask gunicorn
 ```
 
-- Create the file myflask.py:
+- Create the file /srv/www/myflask.py:
 
 ```
-$ cat myflask.py
 # myflask.py
 from flask import Flask, render_template  # importing the render_template function
 
@@ -135,17 +143,18 @@ app = Flask(__name__)
 @app.route("/")
 def hello():
     return render_template('index.html')
+```
 
-- Create the myflask.py
+- Create the file /srv/www/flask/wsgi.py: 
 
+```
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
 ```
 
-- Create the file templates/index.html:
+- Create the file /srv/www/flask/templates/index.html:
 
 ```
-$ cat templates/index.html
 <html>
     <body>
         <h1><center>Hello Flask - Rocky Linux!</center></h1>
