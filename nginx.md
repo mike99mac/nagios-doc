@@ -2,7 +2,7 @@
 
 This page is based on this: ``https://www.howtoforge.com/how-to-install-flask-with-nginx-and-gunicorn-on-rocky-linux/``
 
-## Installing ngingx gunicorn and flask
+## Installing nginx gunicorn and flask
 To install ngingx gunicorn and flask on AlmaLinux, perform the following steps:
 
 - Login as root or switch user to it:
@@ -132,7 +132,7 @@ sudo python3 -m pip install --upgrade pip
 pip3 install flask gunicorn
 ```
 
-- Create the file /srv/www/myflask.py:
+- Create the file ``/srv/www/myflask.py``:
 
 ```
 # myflask.py
@@ -145,7 +145,7 @@ def hello():
     return render_template('index.html')
 ```
 
-- Create the file /srv/www/flask/wsgi.py: 
+- Create the file ``/srv/www/flask/wsgi.py``: 
 
 ```
 if __name__ == "__main__":
@@ -169,11 +169,9 @@ if __name__ == "__main__":
 python3 myflask.py
 
 ```
-- Open a browser
-- Create the file wsgi.py:
+- Create the file ``/srv/www/flask/wsgi.py``:
 
 ```
-$ cat wsgi.py
 # import myflask Flask application
 from myflask import app
 
@@ -181,4 +179,5 @@ if __name__ == "__main__":
     app.run(debug=True)
 ```
 
-Now what?
+- Open a browser and point it to **WHERE**?
+ 
