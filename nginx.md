@@ -23,6 +23,8 @@ dnf install epel-release
 dnf install cifs-utils git gcc mlocate net-tools python3 python3-pip 
 ```
 
+## Install ovos-tools
+This repo has a number of helpful small tools that will be installed in ``/usr/local/sbin``. 
 - Clone the ``ovos-tools`` repo:
 
 ```
@@ -35,6 +37,7 @@ git clone https://github.com/mike99mac/ovos-tools
 ovos-tools/setup.sh
 ```
 
+## Install start and enable nginx
 - Install nginx:
 
 ```
@@ -52,6 +55,9 @@ systemctl start nginx
 ```
 systemctl enable nginx
 ```
+
+## Create a non-root user
+A non-root user is recommended.
 
 - Create a non-root group: 
 
@@ -77,6 +83,7 @@ chmod 755 /home/mikemac
 su - mikemac
 ```
 
+## Install flask
 - Make a directory for flask:
 
 ```
@@ -95,6 +102,67 @@ sudo chown nginx:nginx /srv/www/flask
 sudo chmod 755 /srv/www/flask
 ```
 
+## Create a python 3.10 environment
+AlmaLinux 9.4 has Python 3.9 installed.  Python 3.10 is required for ``match`` statements.  
+
+To install Python 3.10, perform the following steps.
+python -V
+- Update the system:
+
+```
+sudo dnf update
+```
+
+- Install co-requisite packages:
+```
+sudo dnf install wget yum-utils make gcc openssl-devel bzip2-devel libffi-devel zlib-devel
+```
+
+- Download the Python 3.10 tar file to your home directory:
+
+```
+cd; 
+wget https://www.python.org/ftp/python/3.10.5/Python-3.10.5.tgz
+```
+
+- Untar the file:
+
+```
+tar xzf Python-3.10.5.tgz
+```
+
+- Change to the new directory:
+
+```
+cd Python-3.10.5
+```
+
+- Configure the package:
+
+```
+./configure --with-system-ffi --with-computed-gotos --enable-loadable-sqlite-extensions
+```
+
+- Build the package:
+
+```
+make -j ${nproc}
+```
+
+- Install the package:
+
+```
+sudo make altinstall
+```
+
+- Verify the installation
+
+```
+python3.10 -V
+
+## Create a virtual environment
+Perform the following steps to create a Python 3.10 virtual environment.
+
 - Create a virtual environment in ``/srv/venv``:
 
 ```
@@ -102,15 +170,19 @@ cd /srv/
 ```
 
 ```
-sudo python3 -m venv venv
+sudo python3.10 -m venv venv
 ```
 
 - Will this work?
 
+## Change ownership and permissions
+The ownership and permissions of the virtual environment must be modified so the user ``nginx`` can write to it. To do so, perform the following steps.
+
+- This should work
 ```
-sudo chgrp nginx /srv
-sudo chmod g+w /srv
-sudo chgrp -R nginx /srv/venv/
+sudo chgrp nginx /srv; 
+sudo chmod g+w /srv; 
+sudo chgrp -R nginx /srv/venv/; 
 sudo chmod -R g+w /srv/venv/
 ```
 
