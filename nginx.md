@@ -159,15 +159,19 @@ sudo make altinstall
 
 ```
 python3.10 -V
+Python 3.10.5
+```
 
 ## Create a virtual environment
 Perform the following steps to create a Python 3.10 virtual environment.
 
-- Create a virtual environment in ``/srv/venv``:
+- Change directory to ``/srv/``:
 
 ```
 cd /srv/
 ```
+
+- Create a Python 3.10 virtual environment:
 
 ```
 sudo python3.10 -m venv venv
