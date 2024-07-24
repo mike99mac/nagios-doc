@@ -6,8 +6,8 @@ Package managers have played a crucial role in the evolution of Linux and softwa
 
 ### dpkg and RPM
 
-- **dpkg**: One of the earliest package managers, `dpkg` is the base of the Debian package management system. It was introduced in 1994 and is used to install, remove, and provide information about `.deb` packages.
-- **RPM**: The Red Hat Package Manager (`rpm`) was introduced in 1995. It is widely used in Red Hat-based distributions like Fedora, CentOS, and RHEL. RPM manages `.rpm` packages and provides powerful capabilities for querying and verifying packages.
+- **dpkg**, introduced in 1994, is one of the earliest package managers. `dpkg` is the base of the Debian package management system. It is used to install, remove, and provide information about `.deb` packages.
+- **RPM** is tThe Red Hat Package Manager and was introduced in 1995. It is widely used in Red Hat-based distributions like Fedora, CentOS, and RHEL. RPM manages `.rpm` packages and provides powerful capabilities for querying and verifying packages.
 
 ## Advanced Package Managers
 
