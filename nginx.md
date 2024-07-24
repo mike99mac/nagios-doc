@@ -11,16 +11,10 @@ To install ngingx gunicorn and flask on AlmaLinux, perform the following steps:
 sudo su -
 ```
  
-- Install the Extra Packages for Enterprise Linux tools:
-
-```
-dnf install epel-release
-```
-
 - Install co-requisite packages:
 
 ```
-dnf install cifs-utils git gcc mlocate net-tools python3 python3-pip 
+dnf install bind-utils epel-release cifs-utils git gcc mlocate net-tools python3 python3-pip vim
 ```
 
 ## Install ovos-tools
@@ -31,7 +25,7 @@ The ``ovos-tools`` repo has a number of helpful small tools that will be install
 git clone https://github.com/mike99mac/ovos-tools
 ```
 
-- Install the tools 
+- Install OVOS tools 
 
 ```
 ovos-tools/setup.sh
@@ -174,7 +168,7 @@ cd /srv/
 - Create a Python 3.10 virtual environment:
 
 ```
-sudo /usr/local/lib/python3.10 -m venv venv
+sudo /usr/local/bin/python3.10 -m venv venv
 ```
 
 - Will this work?
@@ -199,7 +193,7 @@ sudo chmod -R g+w /srv/venv/
 - Upgrade pip:
 
 ```
-sudo python3 -m pip install --upgrade pip
+python3 -m pip install --upgrade pip
 ```
 
 - Install flask and gunicorn:
@@ -208,10 +202,9 @@ sudo python3 -m pip install --upgrade pip
 pip3 install flask gunicorn
 ```
 
-- Create the file ``/srv/www/myflask.py``:
+- Create the file ``/srv/www/flask/myflask.py``:
 
 ```
-# myflask.py
 from flask import Flask, render_template  # importing the render_template function
 
 app = Flask(__name__)
