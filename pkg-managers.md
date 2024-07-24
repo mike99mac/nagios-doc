@@ -33,22 +33,14 @@ Slackware, one of the earliest Linux distributions, introduced a simple package 
     pip install numpy
     ```
 
-##Modern JavaScript Package Managers
+## Modern JavaScript Package Managers
 
-###npm 
+### npm 
 npm (Node Package Manager): npm was introduced in 2010 alongside Node.js. It is the default package manager for the JavaScript runtime environment Node.js. It manages packages for JavaScript applications, allowing developers to share and reuse code.
 
     ```
     # Example of using npm to install a package
     npm install lodash
-    ```
-
-## npx 
-npx (Node Package Execute) was introduced in 2017. It iss a tool that comes with npm (since version 5.2.0) and allows the execution of Node packages without globally installing them. This makes it easier to run package binaries and scripts.
-
-    ```
-    # Example of using npx to run a package
-    npx create-react-app my-app
     ```
 
 ## yarn
@@ -57,6 +49,14 @@ yarn was developed by Facebook in collaboration with Exponent, Google, and Tilde
     ```
     # Example of using yarn to install a package
     yarn add axios
+    ```
+
+## npx 
+npx (Node Package Execute) was introduced in 2017. It comes with npm (since version 5.2.0) and allows the execution of Node packages without globally installing them. This makes it easier to run package binaries and scripts.
+
+    ```
+    # Example of using npx to run a package
+    npx create-react-app my-app
     ```
 
 # Summary
