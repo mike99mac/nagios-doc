@@ -1,10 +1,12 @@
 # Evolution of Package Managers on Linux
 
 The evolution of package managers on Linux is a fascinating journey that reflects the growing complexity and diversity of Linux distributions and the needs of their users. Here’s a detailed look at this evolution:
-Early Days: Manual Compilation
 
 ##  Manual Compilation: 
 In the early days of Linux, software was typically distributed as source code. Users needed to download the source code, compile it, and install it manually. This process was complex and error-prone, often requiring users to resolve dependencies manually.
+
+## Make
+**Make** is not strictly a package manager but a build automation tool. It reads a file named ``Makefile`` containing instructions on how to build executable programs and libraries from source code. While not designed for package management, it was crucial in the early days, automating the compilation process and making it more manageable.
 
 ## Early Package Managers
 
@@ -43,7 +45,7 @@ npm (Node Package Manager): npm was introduced in 2010 alongside Node.js. It is 
     npm install lodash
     ```
 
-## yarn
+### yarn
 yarn was developed by Facebook in collaboration with Exponent, Google, and Tilde, and released in 2016. It was designed to address some of the shortcomings of npm, such as performance, security, and consistency issues. Yarn provides faster package installation, reliable lock files, and deterministic dependency resolution.
 
     ```
@@ -51,13 +53,30 @@ yarn was developed by Facebook in collaboration with Exponent, Google, and Tilde
     yarn add axios
     ```
 
-## npx 
+### npx 
 npx (Node Package Execute) was introduced in 2017. It comes with npm (since version 5.2.0) and allows the execution of Node packages without globally installing them. This makes it easier to run package binaries and scripts.
 
     ```
     # Example of using npx to run a package
     npx create-react-app my-app
     ```
+
+### Snap
+**snap** is a universal package format and management system that aims to provide consistent application experiences across different Linux distributions.
+
+### Flatpak
+**Flatpak** is another universal packaging format that focuses on application isolation and sandboxing.
+
+### Containerization
+While not strictly package managers, containerization technologies like Docker and Kubernetes have become essential tools for deploying and managing applications in modern Linux environments.
+
+# Key Features of Modern Package Managers
+
+- Dependency management: Automatically handling dependencies to ensure correct installation and updates.
+- Repository support: Accessing software packages from various sources, including official repositories and third-party repositories.
+- Conflict resolution: Managing conflicts between packages that have conflicting dependencies or files.
+- Package signing and verification: Ensuring the integrity and authenticity of packages.
+- Atomic updates: Guaranteeing system consistency by performing package updates in an atomic manner.
 
 # Summary
 
