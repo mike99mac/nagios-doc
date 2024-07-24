@@ -6,7 +6,7 @@ Early Days: Manual Compilation
 ##  Manual Compilation: 
 In the early days of Linux, software was typically distributed as source code. Users needed to download the source code, compile it, and install it manually. This process was complex and error-prone, often requiring users to resolve dependencies manually.
 
-## First Generation: Early Package Managers
+## Early Package Managers
 
 ### Slackware Package Management 
 Slackware, one of the earliest Linux distributions, introduced a simple package management system in 1993. Packages were distributed as compressed tarballs (.tgz) containing precompiled binaries and metadata files for installation.
@@ -23,11 +23,10 @@ Slackware, one of the earliest Linux distributions, introduced a simple package 
 **APT (Advanced Package Tool)** is built on top of `dpkg` and was introduced in 1998. It simplifies package management by handling dependencies and automating the download and installation of packages from repositories.
 
 ## YUM
-- **YUM (Yellowdog Updater, Modified)**: Developed for RPM-based distributions, YUM was introduced in 2003. It automates the process of installing, updating, and removing packages and manages dependencies.
+- **YUM (Yellowdog Updater, Modified)** is built on top of `rpm` and was introduced in 2003. It automates the process of installing, updating, and removing packages and manages dependencies. It also allows the installation of packages from repositories.
 
 ### Emergence of pip
-
-- **pip**: `pip` is the package installer for Python, introduced in 2008 as a replacement for `easy_install`. It allows users to install and manage software packages written in Python. `pip` downloads packages from the Python Package Index (PyPI) and handles package dependencies.
+- **pip (package installer for Python)**, introduced in 2008 as a replacement for `easy_install`. It allows users to install and manage software packages written in Python. `pip` downloads packages from the Python Package Index (PyPI) and handles package dependencies.
 
     ```
     # Example of using pip to install a package
