@@ -14,12 +14,12 @@ In the early days of Linux, software was typically distributed as source code. U
 Slackware, one of the earliest Linux distributions, introduced a simple package management system in 1993. Packages were distributed as compressed tarballs (.tgz) containing precompiled binaries and metadata files for installation.
 
 ### dpkg 
-**dpkg**, introduced in 1994, is one of the earliest package managers. `dpkg` is the base of the Debian package management system. It is used to install, remove, and provide information about `.deb` packages.
+**dpkg**, introduced in 1994, is the primary package manager for Debian and Debian-based systems, such as Ubuntu. It is the base of the Debian package management system. It is used to install, remove, and provide information about `.deb` packages.
 
 For more information, see https://en.wikipedia.org/wiki/Dpkg
 
 ### RPM
-**RPM** is the Red Hat Package Manager and was introduced in 1995. It is widely used in Red Hat-based distributions like Fedora, CentOS, and RHEL. RPM manages `.rpm` packages and provides powerful capabilities for querying and verifying packages.
+**RPM** is the Red Hat Package Manager and was introduced in 1997. It is widely used in Red Hat-based distributions like Fedora, CentOS, and RHEL. RPM manages `.rpm` packages and provides powerful capabilities for querying and verifying packages. Most RPMs contain complied binaries, but there are also *source RPMs* which contain source code.
 
 For more information, see https://en.wikipedia.org/wiki/RPM_Package_Manager
 
