@@ -21,24 +21,40 @@ Slackware, one of the earliest Linux distributions, introduced a simple package 
 
 ## Advanced Package Managers
 
-### APT 
-**APT (Advanced Package Tool)** is built on top of `dpkg` and was introduced in 1998. It simplifies package management by handling dependencies and automating the download and installation of packages from repositories.
+### apt-get
+**apt-get** was introduced in 1998 with Debian 2.0. APT stands for **Advanced Package Tool**. It is built on top of `dpkg`. It simplifies package management by handling dependencies and automating the download and installation of packages from repositories.
 
-## YUM
+apt-get qualities:
+- Low-level: Intended for scripting and automation.
+- Core functionality: Focuses on basic package management tasks.
+- Less user-friendly: Output is more technical and less interactive.
+- Dependency handling: Efficiently handles package dependencies.
+
+### apt 
+**apt** was introduced in 2014 and was designed to be more user-friendly than **apt-get**. 
+
+Apt qualities:
+- User-friendly: Designed for interactive use by end-users.
+- Combined functionality: Incorporates features from both apt-get and apt-cache.
+- Progress bars: Provides visual feedback during package operations.
+- Search functionality: Allows searching for packages without external tools.
+- Local installations: Can install packages from local sources.
+
+### yum
 **YUM (Yellowdog Updater, Modified)** is built on top of `rpm` and was introduced in 2003. It automates the process of installing, updating, and removing packages and manages dependencies. It also allows the installation of packages from repositories. However, it is not considered outdated and **DNF** is recommended.
 
-## DNF
+### dnf
 **DNF (Dandified YUM)** is the package manager primarily used in Fedora, CentOS, and RHEL-based Linux distributions. It was introduced in 2013. It is generally faster and more efficient than YUM, especially when handling large repositories or complex dependency resolutions.
 
-### Emergence of pip
+## Modern Language-specific Package Managers
+
+### pip
 **pip (package installer for Python)**, introduced in 2008 as a replacement for `easy_install`. It allows users to install and manage software packages written in Python. `pip` downloads packages from the Python Package Index (PyPI) and handles package dependencies.
 
 ```
     # Example of using pip to install a package
     pip install numpy
 ```
-
-## Modern Language-specific Package Managers
 
 ### npm 
 npm (Node Package Manager): npm was introduced in 2010 alongside Node.js. It is the default package manager for the JavaScript runtime environment Node.js. It manages packages for JavaScript applications, allowing developers to share and reuse code.
