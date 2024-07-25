@@ -16,12 +16,16 @@ Slackware, one of the earliest Linux distributions, introduced a simple package 
 ### dpkg 
 **dpkg**, introduced in 1994, is one of the earliest package managers. `dpkg` is the base of the Debian package management system. It is used to install, remove, and provide information about `.deb` packages.
 
+For more information, see https://en.wikipedia.org/wiki/Dpkg
+
 ### RPM
 **RPM** is the Red Hat Package Manager and was introduced in 1995. It is widely used in Red Hat-based distributions like Fedora, CentOS, and RHEL. RPM manages `.rpm` packages and provides powerful capabilities for querying and verifying packages.
 
+For more information, see https://en.wikipedia.org/wiki/RPM_Package_Manager
+
 ## Advanced Package Managers
 
-### apt-get
+### apt-get/apt
 **apt-get** was introduced in 1998 with Debian 2.0. APT stands for **Advanced Package Tool**. It is built on top of `dpkg`. It simplifies package management by handling dependencies and automating the download and installation of packages from repositories.
 
 **apt-get** qualities:
@@ -30,21 +34,24 @@ Slackware, one of the earliest Linux distributions, introduced a simple package 
 - Less user-friendly: Output is more technical and less interactive.
 - Dependency handling: Efficiently handles package dependencies.
 
-### apt 
-**apt** was introduced in 2014 and was designed to be more user-friendly than **apt-get**. 
-
-**apt** qualities:
+**apt** was introduced in 2014 and was designed to be more user-friendly than **apt-get**, and has the following qualities:
 - User-friendly: Designed for interactive use by end-users.
 - Combined functionality: Incorporates features from both **apt-get** and **apt-cache**.
 - Progress bars: Provides visual feedback during package operations.
 - Search functionality: Allows searching for packages without external tools.
 - Local installations: Can install packages from local sources.
 
+For more information, see https://en.wikipedia.org/wiki/APT_(software)
+
 ### yum
 **YUM (Yellowdog Updater, Modified)** is built on top of `rpm` and was introduced in 2003. It automates the process of installing, updating, and removing packages and manages dependencies. It also allows the installation of packages from repositories. However, it is not considered outdated and **DNF** is recommended.
 
+For more information, see https://en.wikipedia.org/wiki/Yum_(software)
+
 ### dnf
 **DNF (Dandified YUM)** is the package manager primarily used in Fedora, CentOS, and RHEL-based Linux distributions. It was introduced in 2013. It is generally faster and more efficient than YUM, especially when handling large repositories or complex dependency resolutions.
+
+For more information, see https://en.wikipedia.org/wiki/DNF_(software)
 
 ## Modern Language-specific Package Managers
 
@@ -56,6 +63,8 @@ Slackware, one of the earliest Linux distributions, introduced a simple package 
     pip install numpy
 ```
 
+For more information, see 
+
 ### npm/npx 
 npm (Node Package Manager): npm was introduced in 2010 alongside Node.js. It is the default package manager for the JavaScript runtime environment Node.js. It manages packages for JavaScript applications, allowing developers to share and reuse code.
 
@@ -66,10 +75,14 @@ npm (Node Package Manager): npm was introduced in 2010 alongside Node.js. It is 
 
 npx (Node Package Execute) was introduced in 2017. It was added to npm in version 5.2 and allows the execution of Node packages without globally installing them. This makes it easier to run package binaries and scripts.
 
+For more information, see 
+
 ```
     # Example of using npx to run a package
     npx create-react-app my-app
 ```
+
+For more information, see https://en.wikipedia.org/wiki/Npm
 
 ### yarn
 yarn was developed by Facebook in collaboration with Exponent, Google, and Tilde, and released in 2016. It was designed to address some of the shortcomings of npm, such as performance, security, and consistency issues. Yarn provides faster package installation, reliable lock files, and deterministic dependency resolution.
@@ -79,11 +92,27 @@ yarn was developed by Facebook in collaboration with Exponent, Google, and Tilde
     yarn add axios
 ```
 
+For more information, see https://en.wikipedia.org/wiki/Yarn_(package_manager)
+
 ### Snap
 **snap** is a universal package format and management system that aims to provide consistent application experiences across different Linux distributions.
+The Snap package manager, developed by Canonical (the company behind Ubuntu), is a system for distributing and managing applications on Linux. Here are some key points about Snap:
+
+Universal Packaging: Snap packages, or "snaps," are designed to work across a wide range of Linux distributions without modification. This contrasts with traditional package managers like apt for Debian/Ubuntu or rpm for Red Hat/Fedora, which often require distribution-specific packages.
+
+Snap has the following attributes:
+- Isolation: Snaps are containerized applications that include all necessary dependencies, ensuring that they run consistently regardless of the underlying system. This isolation can enhance security and stability.
+- Automatic Updates: Snap packages can be automatically updated. Users receive updates directly from the developers as soon as they are available, ensuring that applications are always up-to-date with the latest features and security patches.
+- Ease of Use: The Snap package manager simplifies the process of installing, updating, and managing software. Commands like snap install, snap refresh, and snap remove are straightforward and easy to remember.
+- Snap Store: Canonical provides the Snap Store, a centralized repository where developers can publish their snaps and users can browse and install them. This store makes it easy to discover and manage applications.
+- Compatibility: While Snap is designed to be distribution-agnostic, it works particularly well with Ubuntu and its derivatives. However, many other Linux distributions, including Fedora, Arch Linux, and openSUSE, also support snaps through the installation of the Snapd service.
+
+For more information, see https://en.wikipedia.org/wiki/Snap_(software)
 
 ### Flatpak
 **Flatpak** is another universal packaging format that focuses on application isolation and sandboxing.
+
+For more information, see https://en.wikipedia.org/wiki/Flatpak
 
 ### Containerization
 While not strictly package managers, containerization technologies like Docker and Kubernetes have become essential tools for deploying and managing applications in modern Linux environments.
